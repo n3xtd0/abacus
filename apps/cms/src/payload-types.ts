@@ -70,6 +70,10 @@ export interface Config {
     users: User;
     media: Media;
     player: Player;
+    event: Event;
+    tourney: Tourney;
+    entry: Entry;
+    league: League;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,6 +83,10 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     player: PlayerSelect<false> | PlayerSelect<true>;
+    event: EventSelect<false> | EventSelect<true>;
+    tourney: TourneySelect<false> | TourneySelect<true>;
+    entry: EntrySelect<false> | EntrySelect<true>;
+    league: LeagueSelect<false> | LeagueSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -177,6 +185,90 @@ export interface Player {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event".
+ */
+export interface Event {
+  id: number;
+  name: string;
+  name_short?: string | null;
+  league: number | League;
+  tourney: number | Tourney;
+  date: string;
+  time: string;
+  max_players: number;
+  num_entries: number;
+  num_rebuys?: number | null;
+  num_addons?: number | null;
+  num_addups?: number | null;
+  num_topups?: number | null;
+  num_maxups?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "league".
+ */
+export interface League {
+  id: number;
+  name: string;
+  year?: number | null;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tourney".
+ */
+export interface Tourney {
+  id: number;
+  name?: string | null;
+  format: 'freezeout' | 'rebuy';
+  game: 'NL Texas' | 'NL Omaha' | 'PL Texas' | 'PL Omaha' | 'Cash Game' | '5-Draw' | '7 Stud' | 'HORSE' | 'Razz';
+  buyin: number;
+  fee_type: 'fixed' | 'percentage';
+  fee_value: number;
+  pool_type?: ('fixed' | 'percentage') | null;
+  pool_value?: number | null;
+  org_type?: ('fixed' | 'percentage') | null;
+  org_value?: number | null;
+  rebuy?: number | null;
+  addon?: number | null;
+  addup?: number | null;
+  topup?: number | null;
+  maxup?: number | null;
+  stack_init: number;
+  max_rebuys?: number | null;
+  stack_buyin: number;
+  stack_rebuy?: number | null;
+  stack_addon?: number | null;
+  stack_addup?: number | null;
+  stack_topup?: number | null;
+  stack_maxup?: number | null;
+  stack_ontime?: number | null;
+  stack_prereg?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "entry".
+ */
+export interface Entry {
+  id: number;
+  event: number | Event;
+  player: number | Player;
+  status: 'registered' | 'confirmed' | 'cancelled';
+  position: number;
+  prize_paid?: number | null;
+  pts_prize: number;
+  pts_bonus?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -193,6 +285,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'player';
         value: number | Player;
+      } | null)
+    | ({
+        relationTo: 'event';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'tourney';
+        value: number | Tourney;
+      } | null)
+    | ({
+        relationTo: 'entry';
+        value: number | Entry;
+      } | null)
+    | ({
+        relationTo: 'league';
+        value: number | League;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -289,6 +397,86 @@ export interface PlayerSelect<T extends boolean = true> {
   address?: T;
   dni_photo?: T;
   user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event_select".
+ */
+export interface EventSelect<T extends boolean = true> {
+  name?: T;
+  name_short?: T;
+  league?: T;
+  tourney?: T;
+  date?: T;
+  time?: T;
+  max_players?: T;
+  num_entries?: T;
+  num_rebuys?: T;
+  num_addons?: T;
+  num_addups?: T;
+  num_topups?: T;
+  num_maxups?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tourney_select".
+ */
+export interface TourneySelect<T extends boolean = true> {
+  name?: T;
+  format?: T;
+  game?: T;
+  buyin?: T;
+  fee_type?: T;
+  fee_value?: T;
+  pool_type?: T;
+  pool_value?: T;
+  org_type?: T;
+  org_value?: T;
+  rebuy?: T;
+  addon?: T;
+  addup?: T;
+  topup?: T;
+  maxup?: T;
+  stack_init?: T;
+  max_rebuys?: T;
+  stack_buyin?: T;
+  stack_rebuy?: T;
+  stack_addon?: T;
+  stack_addup?: T;
+  stack_topup?: T;
+  stack_maxup?: T;
+  stack_ontime?: T;
+  stack_prereg?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "entry_select".
+ */
+export interface EntrySelect<T extends boolean = true> {
+  event?: T;
+  player?: T;
+  status?: T;
+  position?: T;
+  prize_paid?: T;
+  pts_prize?: T;
+  pts_bonus?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "league_select".
+ */
+export interface LeagueSelect<T extends boolean = true> {
+  name?: T;
+  year?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
