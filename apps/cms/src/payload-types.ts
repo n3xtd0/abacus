@@ -223,7 +223,7 @@ export interface League {
  */
 export interface Tourney {
   id: number;
-  name?: string | null;
+  name: string;
   format: 'freezeout' | 'rebuy';
   game: 'NL Texas' | 'NL Omaha' | 'PL Texas' | 'PL Omaha' | 'Cash Game' | '5-Draw' | '7 Stud' | 'HORSE' | 'Razz';
   buyin: number;
@@ -238,7 +238,6 @@ export interface Tourney {
   addup?: number | null;
   topup?: number | null;
   maxup?: number | null;
-  stack_init: number;
   max_rebuys?: number | null;
   stack_buyin: number;
   stack_rebuy?: number | null;
@@ -441,7 +440,6 @@ export interface TourneySelect<T extends boolean = true> {
   addup?: T;
   topup?: T;
   maxup?: T;
-  stack_init?: T;
   max_rebuys?: T;
   stack_buyin?: T;
   stack_rebuy?: T;

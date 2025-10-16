@@ -13,6 +13,7 @@ export const Tourney: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
+      required: true,
     },
     {
       name: 'format',
@@ -90,11 +91,6 @@ export const Tourney: CollectionConfig = {
       name: 'maxup',
       type: 'number',
       required: false,
-    },
-    {
-      name: 'stack_init',
-      type: 'number',
-      required: true,
     },
     {
       name: 'max_rebuys',
