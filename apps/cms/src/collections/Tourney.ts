@@ -68,27 +68,27 @@ export const Tourney: CollectionConfig = {
       required: false,
     },
     {
-      name: 'rebuy',
+      name: 'cost_rebuy',
       type: 'number',
       required: false,
     },
     {
-      name: 'addon',
+      name: 'cost_addon',
       type: 'number',
       required: false,
     },
     {
-      name: 'addup',
+      name: 'cost_addup',
       type: 'number',
       required: false,
     },
     {
-      name: 'topup',
+      name: 'cost_topup',
       type: 'number',
       required: false,
     },
     {
-      name: 'maxup',
+      name: 'cost_maxup',
       type: 'number',
       required: false,
     },
