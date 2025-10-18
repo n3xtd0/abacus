@@ -22,7 +22,7 @@ export const Event: CollectionConfig = {
     {
       name: 'league',
       type: 'relationship',
-      required: true,
+      required: false,
       relationTo: 'league',
     },
     {

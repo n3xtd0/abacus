@@ -191,7 +191,7 @@ export interface Event {
   id: number;
   name: string;
   name_short?: string | null;
-  league: number | League;
+  league?: (number | null) | League;
   tourney: number | Tourney;
   date: string;
   time: string;
