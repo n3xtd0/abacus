@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useState, useMemo } from 'react'
-import { createClient } from '@supabase/supabase-js'
 import { Event, Tourney } from '@/payload-types'
+import { useSupabaseRealtime } from './useSupabaseRealtime'
 
 interface LiveEventSupabaseProps {
   initialEvent: Event
@@ -10,58 +9,8 @@ interface LiveEventSupabaseProps {
   eventId: string
 }
 
-export function LiveEventSupabase({
-  initialEvent,
-  tourney,
-  eventId,
-}: LiveEventSupabaseProps) {
-  const [event, setEvent] = useState(initialEvent)
-  const [status, setStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting')
-
-  const supabase = useMemo(
-    () =>
-      createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-      ),
-    [],
-  )
-
-  useEffect(() => {
-    console.log('🔄 Connecting to Supabase Realtime for event:', eventId)
-    setStatus('connecting')
-
-    const channel = supabase
-      .channel(`event-${eventId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'event',
-          filter: `id=eq.${eventId}`,
-        },
-        async (payload) => {
-          console.log('📨 Supabase change detected:', payload)
-
-          setEvent(payload.new as unknown as Event)
-         
-        },
-      )
-      .subscribe((status) => {
-        console.log('Supabase subscription status:', status)
-        if (status === 'SUBSCRIBED') {
-          setStatus('connected')
-        } else if (status === 'CLOSED') {
-          setStatus('disconnected')
-        }
-      })
-
-    return () => {
-      console.log('🛑 Unsubscribing from Supabase channels')
-      supabase.removeChannel(channel)
-    }
-  }, [eventId, supabase])
+export function LiveEventSupabase({ initialEvent, tourney, eventId }: LiveEventSupabaseProps) {
+  const { event } = useSupabaseRealtime(eventId, initialEvent)
 
   return (
     <div style={{ padding: '20px', fontFamily: 'system-ui, sans-serif' }}>
@@ -75,32 +24,11 @@ export function LiveEventSupabase({
           color: 'black',
         }}
       >
-        <h2 style={{ marginTop: 0, fontSize: '24px' }}>{event.name}</h2>
-        {event.name_short && (
-          <p style={{ color: '#666', fontSize: '14px' }}>({event.name_short})</p>
-        )}
+        <h2 style={{ marginTop: 0, fontSize: '24px' }}>Inscritos: {event.num_entries}</h2>
+        <h2 style={{ marginTop: 0, fontSize: '24px' }}>Rebuys: {event.num_rebuys}</h2>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '12px',
-            marginTop: '16px',
-          }}
-        >
-          <div>
-            <strong>📅 Date:</strong> {new Date(event.date).toLocaleDateString()}
-          </div>
-          <div>
-            <strong>🕒 Time:</strong> {event.time}
-          </div>
-          <div>
-            <strong>👥 Max Players:</strong> {event.max_players}
-          </div>
-          <div>
-            <strong>🎫 Entries:</strong> {event.num_entries}
-          </div>
-        </div>
+        <h2 style={{ marginTop: 0, fontSize: '24px' }}>Restantes: {event.num_entries}</h2>
+        <h2 style={{ marginTop: 0, fontSize: '24px' }}>Media fichas: {tourney.stack_buyin * event.num_entries + (tourney.stack_rebuy ?? 0) * (event.num_rebuys ?? 0)}</h2>
       </div>
 
       <div
