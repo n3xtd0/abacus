@@ -1,6 +1,8 @@
+"use client";
+
 import { useEffect, useState, useCallback } from "react";
 import useTimer from "./useTimer";
-import { mainStructure, onedayStructure, sideStructure, Structure } from "./data";
+import { mainStructure, onedayStructure, sideStructure, Structure } from "./structures";
 
 function timeFormat(num: number) {
   return num.toLocaleString("en-US", {
@@ -23,8 +25,6 @@ function App() {
 
   const [tourneyLvl, setTourneyLvl] = useState(0);
   const [isPaused, setIsPaused] = useState(true);
-
-
 
   const { secs, mins, setMins, setSecs } = useTimer(
     structure[tourneyLvl].time,
