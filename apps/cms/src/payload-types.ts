@@ -74,6 +74,7 @@ export interface Config {
     tourney: Tourney;
     entry: Entry;
     league: League;
+    level: Level;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -87,6 +88,7 @@ export interface Config {
     tourney: TourneySelect<false> | TourneySelect<true>;
     entry: EntrySelect<false> | EntrySelect<true>;
     league: LeagueSelect<false> | LeagueSelect<true>;
+    level: LevelSelect<false> | LevelSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -268,6 +270,17 @@ export interface Entry {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "level".
+ */
+export interface Level {
+  id: number;
+  sb?: number | null;
+  bb?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -300,6 +313,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'league';
         value: number | League;
+      } | null)
+    | ({
+        relationTo: 'level';
+        value: number | Level;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -475,6 +492,16 @@ export interface LeagueSelect<T extends boolean = true> {
   name?: T;
   year?: T;
   description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "level_select".
+ */
+export interface LevelSelect<T extends boolean = true> {
+  sb?: T;
+  bb?: T;
   updatedAt?: T;
   createdAt?: T;
 }

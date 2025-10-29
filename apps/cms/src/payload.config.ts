@@ -14,6 +14,7 @@ import { Event } from './collections/Event'
 import { Tourney } from './collections/Tourney'
 import { Entry } from './collections/Entry'
 import { League } from './collections/League'
+import { Level } from './collections/Level'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -30,7 +31,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Media, Player, Event, Tourney, Entry, League],
+  collections: [Users, Media, Player, Event, Tourney, Entry, League, Level],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
