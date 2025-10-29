@@ -24,6 +24,11 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      graphics: {
+        Logo: '/components/Logo',
+      },
+    },
   },
   collections: [Users, Media, Player, Event, Tourney, Entry, League],
   editor: lexicalEditor(),
@@ -41,5 +46,5 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
-  telemetry: false
+  telemetry: false,
 })
