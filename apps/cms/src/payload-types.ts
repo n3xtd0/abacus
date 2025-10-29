@@ -75,6 +75,7 @@ export interface Config {
     entry: Entry;
     league: League;
     level: Level;
+    structure: Structure;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -89,6 +90,7 @@ export interface Config {
     entry: EntrySelect<false> | EntrySelect<true>;
     league: LeagueSelect<false> | LeagueSelect<true>;
     level: LevelSelect<false> | LevelSelect<true>;
+    structure: StructureSelect<false> | StructureSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -274,8 +276,20 @@ export interface Entry {
  */
 export interface Level {
   id: number;
-  sb?: number | null;
-  bb?: number | null;
+  sb: number;
+  bb: number;
+  label?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "structure".
+ */
+export interface Structure {
+  id: number;
+  name: string;
+  levels: (number | Level)[];
   updatedAt: string;
   createdAt: string;
 }
@@ -317,6 +331,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'level';
         value: number | Level;
+      } | null)
+    | ({
+        relationTo: 'structure';
+        value: number | Structure;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -502,6 +520,17 @@ export interface LeagueSelect<T extends boolean = true> {
 export interface LevelSelect<T extends boolean = true> {
   sb?: T;
   bb?: T;
+  label?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "structure_select".
+ */
+export interface StructureSelect<T extends boolean = true> {
+  name?: T;
+  levels?: T;
   updatedAt?: T;
   createdAt?: T;
 }

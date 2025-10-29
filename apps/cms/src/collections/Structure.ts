@@ -15,9 +15,10 @@ export const Structure: CollectionConfig = {
       hasMany: true,
       relationTo: 'level',
       admin: {
-        sortable: true,
-        appearance: 'drawer'
-      }
+        components: {
+          Field: '/components/LevelsCheckboxField#LevelsCheckboxField',
+        },
+      },
     },
   ],
 }
