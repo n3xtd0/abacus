@@ -1,4 +1,4 @@
-import { CollectionConfig } from "payload";
+import { CollectionConfig } from 'payload'
 
 export const Structure: CollectionConfig = {
   slug: 'structure',
@@ -19,6 +19,21 @@ export const Structure: CollectionConfig = {
           Field: '/components/LevelsCheckboxField#LevelsCheckboxField',
         },
       },
+    },
+    {
+      name: 'breaks',
+      type: 'array',
+      fields: [
+        {
+          name: 'time',
+          type: 'number',
+          required: true,
+        },
+        {
+          name: 'after_level',
+          type: 'number',
+        },
+      ],
     },
   ],
 }
