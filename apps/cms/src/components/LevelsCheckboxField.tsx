@@ -48,10 +48,20 @@ export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path 
     return <div>Loading levels...</div>
   }
 
+  // Calculate number of rows needed for column-first ordering
+  const numColumns = 3
+  const numRows = Math.ceil(levels.length / numColumns)
+
   return (
     <div className="field-type">
       <FieldLabel label={'Levels'} required={false} />
-      <div className="grid grid-cols-3 gap-3 mt-3">
+      <div 
+        className="grid grid-flow-col gap-3 mt-3"
+        style={{
+          gridTemplateRows: `repeat(${numRows}, minmax(0, 1fr))`,
+          gridTemplateColumns: `repeat(${numColumns}, minmax(0, 1fr))`
+        }}
+      >
         {levels.map((level) => {
           const isLevelSelected = (value || []).includes(level.id)
           const hasBreakAfter = (breakValue || []).includes(level.id)
