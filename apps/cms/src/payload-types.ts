@@ -290,13 +290,10 @@ export interface Structure {
   id: number;
   name: string;
   levels: (number | Level)[];
-  breaks?:
-    | {
-        time: number;
-        after_level?: number | null;
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * Levels that should have a break after them
+   */
+  levelBreaks?: (number | Level)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -538,13 +535,7 @@ export interface LevelSelect<T extends boolean = true> {
 export interface StructureSelect<T extends boolean = true> {
   name?: T;
   levels?: T;
-  breaks?:
-    | T
-    | {
-        time?: T;
-        after_level?: T;
-        id?: T;
-      };
+  levelBreaks?: T;
   updatedAt?: T;
   createdAt?: T;
 }

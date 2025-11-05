@@ -21,19 +21,14 @@ export const Structure: CollectionConfig = {
       },
     },
     {
-      name: 'breaks',
-      type: 'array',
-      fields: [
-        {
-          name: 'time',
-          type: 'number',
-          required: true,
-        },
-        {
-          name: 'after_level',
-          type: 'number',
-        },
-      ],
+      name: 'levelBreaks',
+      type: 'relationship',
+      hasMany: true,
+      relationTo: 'level',
+      admin: {
+        description: 'Levels that should have a break after them',
+        hidden: true, // Hide this field since it's managed by the custom component above
+      },
     },
   ],
 }
