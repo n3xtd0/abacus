@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useField, FieldLabel } from '@payloadcms/ui'
+import { FieldLabel } from '@payloadcms/ui'
 import type { FieldClientComponent } from 'payload'
 import type { Level } from '@/payload-types'
 import { useLevels } from './useLevels'
@@ -10,13 +9,6 @@ import { useLevelTimeValues } from './useLevelTimeValues'
 import { useLevelsChecked } from './useLevelsChecked'
 
 export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path }) => {
-  // const breakTimesField = useField<LevelTimeEntry[]>({
-  //   path: 'breakTimes',
-  // })
-  // const timesValuesField = useField<LevelTimeEntry[]>({
-  //   path: 'levelTime',
-  // })
-
   const { breakTimes, levelTime: timesValues, setBreakTimes, setTimesValues } = useLevelTimeValues()
   const { levels, loading } = useLevels()
   const { levelsChecked, setLevelsChecked } = useLevelsChecked({
@@ -24,10 +16,6 @@ export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path 
     timesValues,
     path: path as string,
     levels,
-  })
-
-  console.log('📊 Current values:', {
-    breakTimes,
   })
 
   const handleLevelChange = (levelId: Level['id']) => {
@@ -39,7 +27,6 @@ export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path 
   }
 
   const handleBreakChange = (levelId: Level['id'], time: number) => {
-    console.log('🚀 ~ handleBreakChange ~ time:', time)
     const currentBreaks = breakTimes || []
     const existingBreak = currentBreaks.find((item) => item.level === levelId)
 
@@ -73,19 +60,34 @@ export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path 
     return <div>Loading levels...</div>
   }
 
-  const numColumns = 3
-  const numRows = Math.ceil(levels.length / numColumns)
+  const numColumnsLg = 3
+  const numColumnsMd = 2
+  const numColumnsBase = 1
+  const numRowsLg = Math.ceil(levels.length / numColumnsLg)
+  const numRowsMd = Math.ceil(levels.length / numColumnsMd)
 
   return (
     <div className="field-type">
       <FieldLabel label={'Levels'} required={false} />
-      <div
-        className="grid grid-flow-col gap-3 mt-3"
-        style={{
-          gridTemplateRows: `repeat(${numRows}, minmax(0, 1fr))`,
-          gridTemplateColumns: `repeat(${numColumns}, minmax(0, 1fr))`,
-        }}
-      >
+      <style>{`
+        .levels-responsive-grid {
+          grid-template-rows: repeat(${levels.length}, minmax(0, 1fr));
+          grid-template-columns: repeat(${numColumnsBase}, minmax(0, 1fr));
+        }
+        @media (min-width: 768px) {
+          .levels-responsive-grid {
+            grid-template-rows: repeat(${numRowsMd}, minmax(0, 1fr));
+            grid-template-columns: repeat(${numColumnsMd}, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1024px) {
+          .levels-responsive-grid {
+            grid-template-rows: repeat(${numRowsLg}, minmax(0, 1fr));
+            grid-template-columns: repeat(${numColumnsLg}, minmax(0, 1fr));
+          }
+        }
+      `}</style>
+      <div className="levels-responsive-grid grid grid-flow-col gap-3 mt-3">
         {levels.map((level) => {
           const isLevelSelected = (levelsChecked || []).includes(level.id)
           const breakTime = Array.isArray(breakTimes) && breakTimes.find((item) => item.level === level.id)
