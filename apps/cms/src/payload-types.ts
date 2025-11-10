@@ -289,11 +289,31 @@ export interface Level {
 export interface Structure {
   id: number;
   name: string;
+  /**
+   * Default time of the levels in the structure
+   */
+  mainTime: number;
   levels: (number | Level)[];
   /**
-   * Levels that should have a break after them
+   * Break times for specific levels
    */
-  levelBreaks?: (number | Level)[] | null;
+  breakTimes?:
+    | {
+        level: number | Level;
+        time: number;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Custom time values for specific levels
+   */
+  levelTime?:
+    | {
+        level: number | Level;
+        time: number;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -534,8 +554,22 @@ export interface LevelSelect<T extends boolean = true> {
  */
 export interface StructureSelect<T extends boolean = true> {
   name?: T;
+  mainTime?: T;
   levels?: T;
-  levelBreaks?: T;
+  breakTimes?:
+    | T
+    | {
+        level?: T;
+        time?: T;
+        id?: T;
+      };
+  levelTime?:
+    | T
+    | {
+        level?: T;
+        time?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

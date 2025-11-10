@@ -1,7 +1,7 @@
-import { LevelsCheckboxField as LevelsCheckboxField_a36896ec508f1bd77f4099a967c4c791 } from '../../../components/LevelsCheckboxField'
+import { LevelsCheckboxField as LevelsCheckboxField_6d2a5d42ca663fba651333f548202312 } from '../../../components/structureLevels/LevelsCheckboxField'
 import { default as default_919492c8e60179286a0f183c0a5b652e } from '../../../components/Logo'
 
 export const importMap = {
-  "/components/LevelsCheckboxField#LevelsCheckboxField": LevelsCheckboxField_a36896ec508f1bd77f4099a967c4c791,
+  "/components/structureLevels/LevelsCheckboxField#LevelsCheckboxField": LevelsCheckboxField_6d2a5d42ca663fba651333f548202312,
   "/components/Logo#default": default_919492c8e60179286a0f183c0a5b652e
 }
