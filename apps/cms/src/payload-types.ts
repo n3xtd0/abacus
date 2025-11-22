@@ -297,7 +297,7 @@ export interface Structure {
   /**
    * Break times for specific levels
    */
-  breakTimes?:
+  breakDurations?:
     | {
         level: number | Level;
         time: number;
@@ -307,7 +307,7 @@ export interface Structure {
   /**
    * Custom time values for specific levels
    */
-  levelTime?:
+  levelDurations?:
     | {
         level: number | Level;
         time: number;
@@ -556,14 +556,14 @@ export interface StructureSelect<T extends boolean = true> {
   name?: T;
   mainTime?: T;
   levels?: T;
-  breakTimes?:
+  breakDurations?:
     | T
     | {
         level?: T;
         time?: T;
         id?: T;
       };
-  levelTime?:
+  levelDurations?:
     | T
     | {
         level?: T;

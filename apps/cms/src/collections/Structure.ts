@@ -29,7 +29,7 @@ export const Structure: CollectionConfig = {
       },
     },
     {
-      name: 'breakTimes',
+      name: 'breakDurations',
       type: 'array',
       admin: {
         description: 'Break times for specific levels',
@@ -50,7 +50,7 @@ export const Structure: CollectionConfig = {
       ],
     },
     {
-      name: 'levelTime',
+      name: 'levelDurations',
       type: 'array',
       admin: {
         description: 'Custom time values for specific levels',

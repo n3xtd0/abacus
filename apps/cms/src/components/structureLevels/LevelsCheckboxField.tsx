@@ -6,53 +6,47 @@ import type { Level } from '@/payload-types'
 import { useLevels } from './useLevels'
 import { LabeledInput } from './LabeledInput'
 import { useLevelTimeValues } from './useLevelTimeValues'
-import { useLevelsChecked } from './useLevelsChecked'
+import { ResponsiveGrid } from './ResponsiveGrid'
 
 export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path }) => {
-  const { breakTimes, levelTime: timesValues, setBreakTimes, setTimesValues } = useLevelTimeValues()
   const { levels, loading } = useLevels()
-  const { levelsChecked, setLevelsChecked } = useLevelsChecked({
-    breakTimes,
-    timesValues,
-    path: path as string,
-    levels,
-  })
 
-  const handleLevelChange = (levelId: Level['id']) => {
-    const currentValue = levelsChecked || []
-    const newValue = currentValue.includes(levelId)
-      ? currentValue.filter((id) => id !== levelId)
-      : [...currentValue, levelId]
-    setLevelsChecked(newValue)
-  }
+  const {
+    breakDurations,
+    levelDurations,
+    setBreakDurations,
+    setLevelDurations,
+    levelsChecked,
+    toggleLevel,
+  } = useLevelTimeValues({ path: path as string, levels })
 
   const handleBreakChange = (levelId: Level['id'], time: number) => {
-    const currentBreaks = breakTimes || []
-    const existingBreak = currentBreaks.find((item) => item.level === levelId)
+    const currentBreaks = breakDurations || []
+    const existingBreak = currentBreaks.find((item) => item.levelId === levelId)
 
     if (existingBreak) {
       if (time === 0) {
-        setBreakTimes(currentBreaks.filter((item) => item.level !== levelId))
+        setBreakDurations(currentBreaks.filter((item) => item.levelId !== levelId))
       } else {
-        setBreakTimes(currentBreaks.map((item) => (item.level === levelId ? { ...item, time } : item)))
+        setBreakDurations(currentBreaks.map((item) => (item.levelId === levelId ? { ...item, time } : item)))
       }
     } else {
-      setBreakTimes([...currentBreaks, { level: levelId, time }])
+      setBreakDurations([...currentBreaks, { levelId: levelId, time }])
     }
   }
 
   const handleTimeChange = (levelId: Level['id'], time: number) => {
-    const currentTimes = timesValues || []
-    const existingTime = currentTimes.find((item) => item.level === levelId)
+    const currentTimes = levelDurations || []
+    const existingTime = currentTimes.find((item) => item.levelId === levelId)
 
     if (existingTime) {
       if (time === 0) {
-        setTimesValues(currentTimes.filter((item) => item.level !== levelId))
+        setLevelDurations(currentTimes.filter((item) => item.levelId !== levelId))
       } else {
-        setTimesValues(currentTimes.map((item) => (item.level === levelId ? { ...item, time } : item)))
+        setLevelDurations(currentTimes.map((item) => (item.levelId === levelId ? { ...item, time } : item)))
       }
     } else {
-      setTimesValues([...currentTimes, { level: levelId, time }])
+      setLevelDurations([...currentTimes, { levelId: levelId, time }])
     }
   }
 
@@ -60,38 +54,15 @@ export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path 
     return <div>Loading levels...</div>
   }
 
-  const numColumnsLg = 3
-  const numColumnsMd = 2
-  const numColumnsBase = 1
-  const numRowsLg = Math.ceil(levels.length / numColumnsLg)
-  const numRowsMd = Math.ceil(levels.length / numColumnsMd)
-
   return (
     <div className="field-type">
       <FieldLabel label={'Levels'} required={false} />
-      <style>{`
-        .levels-responsive-grid {
-          grid-template-rows: repeat(${levels.length}, minmax(0, 1fr));
-          grid-template-columns: repeat(${numColumnsBase}, minmax(0, 1fr));
-        }
-        @media (min-width: 768px) {
-          .levels-responsive-grid {
-            grid-template-rows: repeat(${numRowsMd}, minmax(0, 1fr));
-            grid-template-columns: repeat(${numColumnsMd}, minmax(0, 1fr));
-          }
-        }
-        @media (min-width: 1024px) {
-          .levels-responsive-grid {
-            grid-template-rows: repeat(${numRowsLg}, minmax(0, 1fr));
-            grid-template-columns: repeat(${numColumnsLg}, minmax(0, 1fr));
-          }
-        }
-      `}</style>
-      <div className="levels-responsive-grid grid grid-flow-col gap-3 mt-3">
+
+      <ResponsiveGrid itemCount={levels.length}>
         {levels.map((level) => {
           const isLevelSelected = (levelsChecked || []).includes(level.id)
-          const breakTime = Array.isArray(breakTimes) && breakTimes.find((item) => item.level === level.id)
-          const timeEntry = Array.isArray(timesValues) && timesValues.find((item) => item.level === level.id)
+          const breakTime = Array.isArray(breakDurations) && breakDurations.find((item) => item.levelId === level.id)
+          const timeEntry = Array.isArray(levelDurations) && levelDurations.find((item) => item.levelId === level.id)
           return (
             <div
               key={level.id}
@@ -102,7 +73,7 @@ export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path 
               <LabeledInput
                 label={`${level.sb} / ${level.bb}`}
                 value={isLevelSelected ? 'true' : 'false'}
-                onChange={() => handleLevelChange(level.id)}
+                onChange={() => toggleLevel(level.id)}
                 className="w-4 h-4 accent-blue-600"
                 labelClassName="text-white font-medium"
               />
@@ -128,7 +99,7 @@ export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path 
             </div>
           )
         })}
-      </div>
+      </ResponsiveGrid>
     </div>
   )
 }

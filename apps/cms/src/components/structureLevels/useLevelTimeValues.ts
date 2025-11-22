@@ -1,92 +1,56 @@
 import type { Level } from '@/payload-types'
 import { useFormFields } from '@payloadcms/ui'
-import { FormState } from 'payload'
-import { useMemo } from 'react'
+import { useLevelsChecked } from './useLevelsChecked'
+import { reconstructLevelTimes, updateLevelTimes } from './levelTime.utils'
 
-export interface LevelTimeEntry {
-  level: Level['id']
+export interface LevelTime {
+  levelId: Level['id']
   time: number
 }
 
-const reconstructLevelTimes = (basePath: string, rowCount: number, formData: FormState): LevelTimeEntry[] => {
-  const result: LevelTimeEntry[] = []
-  for (let i = 0; i < rowCount; i++) {
-    const levelField = formData?.[`${basePath}.${i}.level`]
-    const timeField = formData?.[`${basePath}.${i}.time`]
-
-    const levelValue = levelField?.value
-    const timeValue = timeField?.value
-
-    if (levelValue !== undefined && levelValue !== null && timeValue !== undefined && timeValue !== null) {
-      result.push({
-        level: levelValue as Level['id'],
-        time: Number(timeValue),
-      })
-    }
-  }
-  return result
-}
-
-export const useLevelTimeValues = () => {
+export const useLevelTimeValues = ({ path, levels }: { path: string; levels: Level[] }) => {
   const { fields, dispatch } = useFormFields(([fields, dispatch]) => {
     return { fields, dispatch }
   })
 
-  const breakTimesCount = fields ? Object.keys(fields).filter((key) => key.startsWith('breakTimes.')).length / 2 : 0
-  const levelTimeCount = fields ? Object.keys(fields).filter((key) => key.startsWith('levelTime.')).length / 2 : 0
+  const breakDurations: LevelTime[] = !fields ? [] : reconstructLevelTimes('breakDurations', fields)
+  const levelDurations: LevelTime[] = !fields ? [] : reconstructLevelTimes('levelDurations', fields)
 
-  const breakTimes = useMemo(() => {
-    return !fields ? [] : reconstructLevelTimes('breakTimes', breakTimesCount, fields)
-  }, [breakTimesCount, fields])
-  
-  const levelTime = useMemo(() => {
-    return !fields ? [] : reconstructLevelTimes('levelTime', levelTimeCount, fields)
-  }, [levelTimeCount, fields])
+  const setBreakDurations = (breakDurations: LevelTime[]) => {
+    const updatedFormState = updateLevelTimes('breakDurations', breakDurations, fields)
+    dispatch({ type: 'UPDATE_MANY', formState: updatedFormState })
+  }
+  const setLevelDurations = (levelDurations: LevelTime[]) => {
+    const updatedFormState = updateLevelTimes('levelDurations', levelDurations, fields)
+    dispatch({ type: 'UPDATE_MANY', formState: updatedFormState })
+  }
+  const clearLevelDurations = (levelId: Level['id']) => {
+    const updatedFormState = updateLevelTimes('breakDurations', breakDurations.filter((item) => item.levelId !== levelId), fields)
+    const updatedFormState2 = updateLevelTimes('levelDurations', levelDurations.filter((item) => item.levelId !== levelId), updatedFormState)
+    dispatch({ type: 'UPDATE_MANY', formState: updatedFormState2 })
+  }
+
+  const { levelsChecked, setLevelsChecked } = useLevelsChecked({
+    breakDurations,
+    levelDurations,
+    path: path as string,
+    levels,
+  })
+
+  const toggleLevel = (id: Level['id']) => {
+    if (!!levelsChecked.includes(id)) {
+      clearLevelDurations(id)
+    } else {
+      setLevelsChecked([...levelsChecked, id])
+    }
+  }
 
   return {
-    breakTimes,
-    levelTime,
-    setBreakTimes: (value: LevelTimeEntry[]) =>{
-
-      const basePath = 'breakTimes'
-      const newFormState = { ...fields }
-      value.forEach((item, index) => {
-        newFormState[`${basePath}.${index}.level`] = { value: item.level }
-        newFormState[`${basePath}.${index}.time`] = { value: item.time }
-      })
-      dispatch({
-        type: 'UPDATE_MANY',
-        formState: newFormState,
-      })
-    },
-    setTimesValues: (value: LevelTimeEntry[]) => {
-      const basePath = 'levelTime'
-      const newFormState = { ...fields }
-      value.forEach((item, index) => {
-        newFormState[`${basePath}.${index}.level`] = { value: item.level }
-        newFormState[`${basePath}.${index}.time`] = { value: item.time }
-      })
-      dispatch({
-        type: 'UPDATE_MANY',
-        formState: newFormState,
-      })
-    },
+    breakDurations,
+    levelDurations,
+    levelsChecked,
+    setBreakDurations,
+    setLevelDurations,
+    toggleLevel,
   }
-  // const setBreakTimes = (value: LevelTimeEntry[]) => {
-  //   dispatch({
-  //     type: 'UPDATE',
-  //     path: 'breakTimes',
-  //     value: value,
-  //   })
-  // }
-  // const setTimesValues = (value: LevelTimeEntry[]) => {
-  //   dispatch({
-  //     type: 'UPDATE',
-  //     path: 'levelTime',
-  //     value: value,
-  //   })
-  // }
-
-  // const breakTimes = reconstructLevelTimes('breakTimes', breakTimesRowCount)
-  // const timesValues = reconstructLevelTimes('levelTime', timesValuesRowCount)
 }
