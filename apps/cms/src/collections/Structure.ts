@@ -24,7 +24,7 @@ export const Structure: CollectionConfig = {
       relationTo: 'level',
       admin: {
         components: {
-          Field: '/components/structureLevels/LevelsCheckboxField#LevelsCheckboxField',
+          Field: '/components/structureLevels/LevelsField#LevelsField',
         },
       },
     },

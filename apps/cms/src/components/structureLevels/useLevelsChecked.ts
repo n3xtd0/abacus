@@ -1,33 +1,27 @@
 import { Level } from '@/payload-types'
-import { LevelTime } from './useLevelTimeValues'
 import { useField } from '@payloadcms/ui'
 import { useEffect } from 'react'
+import { buildLevelTimes } from './levelTime.utils'
+import { FormState } from 'payload'
 
 interface Props {
-  breakDurations: LevelTime[]
-  levelDurations: LevelTime[]
+  fields: FormState
   path: string
   levels: Level[]
 }
-
-export const useLevelsChecked = ({ breakDurations, levelDurations, path, levels }: Props) => {
+export const useLevelsChecked = ({ fields, path, levels }: Props) => {
   const { value: levelsChecked, setValue: setLevelsChecked } = useField<Level['id'][]>({ path })
   
   useEffect(() => {
-    const breakDurationIds = breakDurations.map((item) => item.levelId)
-    const levelDurationIds = levelDurations.map((item) => item.levelId)
+    const breakDurationIds = buildLevelTimes('breakDurations', fields).map((item) => item.levelId)
+    const levelDurationIds = buildLevelTimes('levelDurations', fields).map((item) => item.levelId)
     const filteredLevelIds = levels
       .map((level) => level.id)
       .filter((id) => breakDurationIds.includes(id) || levelDurationIds.includes(id))
+    console.log("🚀 ~ useLevelsChecked ~ filteredLevelIds:", filteredLevelIds)
 
-    const currentIds = levelsChecked || []
-    const hasChanged =
-      filteredLevelIds.length !== currentIds.length || filteredLevelIds.some((id, index) => id !== currentIds[index])
-
-    if (hasChanged) {
-      setLevelsChecked(filteredLevelIds)
-    }
-  }, [breakDurations, levelDurations, levels, levelsChecked, setLevelsChecked])
+    setLevelsChecked([...new Set([...levelsChecked, ...filteredLevelIds])])
+  }, [levels])
 
   return { levelsChecked, setLevelsChecked }
 }

@@ -5,6 +5,7 @@ export const useLevels = () => {
   const [levels, setLevels] = useState<Level[]>([])
   const [loading, setLoading] = useState(true)
   
+  // TODO: use tanstack query
   useEffect(() => {
     const fetchLevels = async () => {
       try {

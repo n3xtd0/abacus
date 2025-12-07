@@ -2,7 +2,7 @@ import { Level } from '@/payload-types'
 import { LevelTime } from './useLevelTimeValues'
 import { FormState } from 'payload'
 
-export const reconstructLevelTimes = (basePath: string, formData: FormState): LevelTime[] => {
+export const buildLevelTimes = (basePath: string, formData: FormState): LevelTime[] => {
   const rowCount = formData ? Object.keys(formData).filter((key) => key.startsWith(`${basePath}.`)).length / 2 : 0
 
   const result: LevelTime[] = []
@@ -33,7 +33,7 @@ const deleteEveryKeyStartingWith = (basePath: string, formData: FormState) => {
   return newFormState
 }
 
-export const updateLevelTimes = (basePath: string, levelTimes: LevelTime[], formData: FormState) => {
+export const updateFormState = (basePath: string, levelTimes: LevelTime[], formData: FormState) => {
   const newFormState = deleteEveryKeyStartingWith(basePath, formData)
   levelTimes.forEach((entry, index) => {
     newFormState[`${basePath}.${index}.level`] = { value: entry.levelId }

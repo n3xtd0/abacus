@@ -1,7 +1,7 @@
 import type { Level } from '@/payload-types'
 import { useFormFields } from '@payloadcms/ui'
 import { useLevelsChecked } from './useLevelsChecked'
-import { reconstructLevelTimes, updateLevelTimes } from './levelTime.utils'
+// import { buildLevelTimes, updateFormState } from './levelTime.utils'
 
 export interface LevelTime {
   levelId: Level['id']
@@ -12,45 +12,88 @@ export const useLevelTimeValues = ({ path, levels }: { path: string; levels: Lev
   const { fields, dispatch } = useFormFields(([fields, dispatch]) => {
     return { fields, dispatch }
   })
+  console.log('🚀 ~ useLevelTimeValues ~ fields:', fields)
 
-  const breakDurations: LevelTime[] = !fields ? [] : reconstructLevelTimes('breakDurations', fields)
-  const levelDurations: LevelTime[] = !fields ? [] : reconstructLevelTimes('levelDurations', fields)
+  const handleBreakChange = (levelId: Level['id'], time: number) => {
+    // const currentBreaks = buildLevelTimes('breakDurations', fields) || []
+    const existingBreakKey = Object.keys(fields).find(
+      (key) => key.startsWith('breakDurations.') && key.endsWith('.level') && fields[key].value === levelId,
+    )
 
-  const setBreakDurations = (breakDurations: LevelTime[]) => {
-    const updatedFormState = updateLevelTimes('breakDurations', breakDurations, fields)
-    dispatch({ type: 'UPDATE_MANY', formState: updatedFormState })
+    if (existingBreakKey) {
+      dispatch({ type: 'UPDATE', path: `${existingBreakKey}.time`, value: time })
+    } else {
+      dispatch({
+        type: 'UPDATE',
+        path: `breakDurations`,
+        value: [...(fields.breakDurations as { level: Level['id']; time: number }[]), { level: levelId, time }],
+      })
+    }
+  
+    // dispatch({ type: 'UPDATE', path: `${path}.breakDurations.${existingBreakKey}.time`, value: time })
   }
-  const setLevelDurations = (levelDurations: LevelTime[]) => {
-    const updatedFormState = updateLevelTimes('levelDurations', levelDurations, fields)
-    dispatch({ type: 'UPDATE_MANY', formState: updatedFormState })
+
+  const handleTimeChange = (levelId: Level['id'], time: number) => {
+    const existingTimeKey = Object.keys(fields).find(
+      (key) => key.startsWith('levelDurations.') && key.endsWith('.level') && fields[key].value === levelId,
+    )
+    if (existingTimeKey) {
+      dispatch({ type: 'UPDATE', path: `${existingTimeKey}.time`, value: time })
+    }
+    else {
+      dispatch({
+        type: 'UPDATE',
+        path: `levelDurations`,
+        value: [...(fields.levelDurations as { level: Level['id']; time: number }[]), { level: levelId, time }],
+      })
+    }
+    // dispatch({ type: 'UPDATE', path: `${path}.levelDurations.${existingTimeKey}.time`, value: time })
   }
-  const clearLevelDurations = (levelId: Level['id']) => {
-    const updatedFormState = updateLevelTimes('breakDurations', breakDurations.filter((item) => item.levelId !== levelId), fields)
-    const updatedFormState2 = updateLevelTimes('levelDurations', levelDurations.filter((item) => item.levelId !== levelId), updatedFormState)
-    dispatch({ type: 'UPDATE_MANY', formState: updatedFormState2 })
-  }
+
+
+  // const breakDurations: LevelTime[] = !fields ? [] : buildLevelTimes('breakDurations', fields)
+  // const levelDurations: LevelTime[] = !fields ? [] : buildLevelTimes('levelDurations', fields)
+
+  // const setBreakDurations = (breakDurations: LevelTime[]) => {
+  //   const updatedFormState = updateLevelTimes('breakDurations', breakDurations, fields)
+  //   dispatch({ type: 'UPDATE_MANY', formState: updatedFormState })
+  // }
+  // const setLevelDurations = (levelDurations: LevelTime[]) => {
+  //   const updatedFormState = updateLevelTimes('levelDurations', levelDurations, fields)
+  //   dispatch({ type: 'UPDATE_MANY', formState: updatedFormState })
+  // }
+  // const clearLevelDurations = (levelId: Level['id']) => {
+  //   // Read fresh values from fields to avoid stale closure values
+  //   const currentBreakDurations = buildLevelTimes('breakDurations', fields)
+  //   const currentLevelDurations = buildLevelTimes('levelDurations', fields)
+
+  //   const updatedFormState = updateLevelTimes('breakDurations', currentBreakDurations.filter((item) => item.levelId !== levelId), fields)
+  //   const updatedFormState2 = updateLevelTimes('levelDurations', currentLevelDurations.filter((item) => item.levelId !== levelId), updatedFormState)
+  //   console.log("🚀 ~ clearLevelDurations ~ updatedFormState2:", updatedFormState2)
+  //   dispatch({ type: 'UPDATE_MANY', formState: updatedFormState2 })
+  // }
 
   const { levelsChecked, setLevelsChecked } = useLevelsChecked({
-    breakDurations,
-    levelDurations,
+    fields,
     path: path as string,
     levels,
   })
 
   const toggleLevel = (id: Level['id']) => {
     if (!!levelsChecked.includes(id)) {
-      clearLevelDurations(id)
+      // clearLevelDurations(id)
+      setLevelsChecked(levelsChecked.filter((item) => item !== id))
     } else {
       setLevelsChecked([...levelsChecked, id])
     }
   }
 
   return {
-    breakDurations,
-    levelDurations,
+    breakDurations: fields?.breakDurations as { level: Level['id']; time: number }[],
+    levelDurations: fields?.levelDurations as { level: Level['id']; time: number }[],
     levelsChecked,
-    setBreakDurations,
-    setLevelDurations,
+    handleBreakChange,
+    handleTimeChange,
     toggleLevel,
   }
 }

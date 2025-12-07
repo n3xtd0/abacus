@@ -2,53 +2,18 @@
 
 import { FieldLabel } from '@payloadcms/ui'
 import type { FieldClientComponent } from 'payload'
-import type { Level } from '@/payload-types'
 import { useLevels } from './useLevels'
 import { LabeledInput } from './LabeledInput'
-import { useLevelTimeValues } from './useLevelTimeValues'
+import { useLevelTimeValues as useTimeValues } from './useLevelTimeValues'
 import { ResponsiveGrid } from './ResponsiveGrid'
 
-export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path }) => {
+export const LevelsField: FieldClientComponent = ({ field: _field, path }) => {
   const { levels, loading } = useLevels()
 
-  const {
-    breakDurations,
-    levelDurations,
-    setBreakDurations,
-    setLevelDurations,
-    levelsChecked,
-    toggleLevel,
-  } = useLevelTimeValues({ path: path as string, levels })
-
-  const handleBreakChange = (levelId: Level['id'], time: number) => {
-    const currentBreaks = breakDurations || []
-    const existingBreak = currentBreaks.find((item) => item.levelId === levelId)
-
-    if (existingBreak) {
-      if (time === 0) {
-        setBreakDurations(currentBreaks.filter((item) => item.levelId !== levelId))
-      } else {
-        setBreakDurations(currentBreaks.map((item) => (item.levelId === levelId ? { ...item, time } : item)))
-      }
-    } else {
-      setBreakDurations([...currentBreaks, { levelId: levelId, time }])
-    }
-  }
-
-  const handleTimeChange = (levelId: Level['id'], time: number) => {
-    const currentTimes = levelDurations || []
-    const existingTime = currentTimes.find((item) => item.levelId === levelId)
-
-    if (existingTime) {
-      if (time === 0) {
-        setLevelDurations(currentTimes.filter((item) => item.levelId !== levelId))
-      } else {
-        setLevelDurations(currentTimes.map((item) => (item.levelId === levelId ? { ...item, time } : item)))
-      }
-    } else {
-      setLevelDurations([...currentTimes, { levelId: levelId, time }])
-    }
-  }
+  const { levelsChecked, toggleLevel, breakDurations, levelDurations, handleBreakChange, handleTimeChange } = useTimeValues({
+    path: path as string,
+    levels,
+  })
 
   if (loading) {
     return <div>Loading levels...</div>
@@ -61,8 +26,8 @@ export const LevelsCheckboxField: FieldClientComponent = ({ field: _field, path 
       <ResponsiveGrid itemCount={levels.length}>
         {levels.map((level) => {
           const isLevelSelected = (levelsChecked || []).includes(level.id)
-          const breakTime = Array.isArray(breakDurations) && breakDurations.find((item) => item.levelId === level.id)
-          const timeEntry = Array.isArray(levelDurations) && levelDurations.find((item) => item.levelId === level.id)
+          const breakTime = Array.isArray(breakDurations) && breakDurations.find((item) => item.level === level.id)
+          const timeEntry = Array.isArray(levelDurations) && levelDurations.find((item) => item.level === level.id)
           return (
             <div
               key={level.id}
