@@ -89,8 +89,8 @@ export const useLevelTimeValues = ({ path, levels }: { path: string; levels: Lev
   }
 
   return {
-    breakDurations: fields?.breakDurations as { level: Level['id']; time: number }[],
-    levelDurations: fields?.levelDurations as { level: Level['id']; time: number }[],
+    breakDurations: fields?.breakDurations as LevelTime[],
+    levelDurations: fields?.levelDurations as LevelTime[],
     levelsChecked,
     handleBreakChange,
     handleTimeChange,
