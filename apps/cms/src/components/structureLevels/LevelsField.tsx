@@ -20,7 +20,7 @@ export const LevelsField: FieldClientComponent = ({ field: _field, path }) => {
   }
 
   return (
-    <div className="field-type">
+    <ul className="field-type">
       <FieldLabel label={'Levels'} required={false} />
 
       <ResponsiveGrid itemCount={levels.length}>
@@ -29,7 +29,7 @@ export const LevelsField: FieldClientComponent = ({ field: _field, path }) => {
           const breakTime = Array.isArray(breakDurations) && breakDurations.find((item) => item.level === level.id)
           const timeEntry = Array.isArray(levelDurations) && levelDurations.find((item) => item.level === level.id)
           return (
-            <div
+            <li 
               key={level.id}
               className={`flex flex-col gap-2 p-3 rounded-md border-2 transition-all duration-200 ${
                 isLevelSelected ? 'bg-zinc-900 border-blue-600' : 'bg-zinc-800 border-zinc-700'
@@ -61,10 +61,10 @@ export const LevelsField: FieldClientComponent = ({ field: _field, path }) => {
                   className="text-white"
                 />
               )}
-            </div>
+            </li>
           )
         })}
       </ResponsiveGrid>
-    </div>
+    </ul>
   )
 }

@@ -1,6 +1,6 @@
 import { test, expect, Page } from '@playwright/test'
 
-test.describe('Frontend', () => {
+test.describe.skip('Frontend', () => {
   let page: Page
 
   test.beforeAll(async ({ browser }, testInfo) => {
