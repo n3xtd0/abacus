@@ -48,21 +48,23 @@ describe("LevelInputs", () => {
     expect(mockToggleLevel).toHaveBeenCalledWith(mockLevels[0].id)
   });
 
-  it("should call the handleBreakChange with level id and time when the break time input is changed", async () => {
+  it("should call the handleBreakChange with level id and time everytime the break time input is changed", async () => {
     const mockBreakTime = { levelId: mockLevels[0].id, time: 10 }
     const user = userEvent.setup()
     render(<LevelInputs selected breakTime={mockBreakTime}  />)
-    await user.type(screen.getByRole('spinbutton', { name: /Break time after this level/i }), '10')
-    expect(mockHandleBreakChange).toHaveBeenCalledTimes(1)
-    expect(mockHandleBreakChange).toHaveBeenCalledWith(mockBreakTime.levelId, mockBreakTime.time)
+    const typedValue = '100'
+    await user.type(screen.getByRole('spinbutton', { name: /Break time after this level/i }), typedValue)
+    expect(mockHandleBreakChange).toHaveBeenCalledTimes(typedValue.length)
+    expect(mockHandleBreakChange).toHaveBeenCalledWith(mockBreakTime.levelId, Number(typedValue))
   });
 
-  it("should call the handleTimeChange with level id and time when the custom time input is changed", async () => {
+  it("should call the handleTimeChange with level id and time everytime the custom time input is changed", async () => {
     const mockTimeEntry = { levelId: mockLevels[0].id, time: 10 }
     const user = userEvent.setup()
     render(<LevelInputs selected timeEntry={mockTimeEntry} />)
-    await user.type(screen.getByRole('spinbutton', { name: /Custom time for this level/i }), mockTimeEntry.time.toString())
-    expect(mockHandleTimeChange).toHaveBeenCalledTimes(1)
-    expect(mockHandleTimeChange).toHaveBeenCalledWith(mockTimeEntry.levelId, mockTimeEntry.time)
+    const typedValue = '100'
+    await user.type(screen.getByRole('spinbutton', { name: /Custom time for this level/i }), typedValue)
+    expect(mockHandleTimeChange).toHaveBeenCalledTimes(typedValue.length)
+    expect(mockHandleTimeChange).toHaveBeenCalledWith(mockTimeEntry.levelId, Number(typedValue))
   });
 })
