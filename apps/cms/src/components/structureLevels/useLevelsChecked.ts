@@ -18,7 +18,6 @@ export const useLevelsChecked = ({ fields, path, levels }: Props) => {
     const filteredLevelIds = levels
       .map((level) => level.id)
       .filter((id) => breakDurationIds.includes(id) || levelDurationIds.includes(id))
-    console.log("🚀 ~ useLevelsChecked ~ filteredLevelIds:", filteredLevelIds)
 
     setLevelsChecked([...new Set([...levelsChecked, ...filteredLevelIds])])
   }, [levels])

@@ -9,7 +9,6 @@ export const fieldRawValuesToLevelTimeArray = (fields: FormState, basePath: stri
         .map(keyWithoutLast),
     ),
   ]
-  console.log('🚀 ~ fieldRawValuesToLevelTimeArray ~ basePathKeys:', basePathKeys)
   return basePathKeys.reduce((acc: LevelTime[], key) => {
     const levelId = fields[`${key}.level`].value as number
     const time = fields[`${key}.time`].value as number

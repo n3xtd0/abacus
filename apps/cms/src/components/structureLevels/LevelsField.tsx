@@ -14,7 +14,6 @@ export const LevelsField: FieldClientComponent = ({ field: _field, path }) => {
     path: path as string,
     levels,
   })
-  console.log("🚀 ~ LevelsField ~ breakDurations:", breakDurations)
 
   if (loading) {
     return <div>Loading levels...</div>
