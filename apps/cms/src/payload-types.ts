@@ -251,34 +251,7 @@ export interface Tourney {
   stack_maxup?: number | null;
   stack_ontime?: number | null;
   stack_prereg?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "entry".
- */
-export interface Entry {
-  id: number;
-  event: number | Event;
-  player: number | Player;
-  status: 'registered' | 'confirmed' | 'cancelled';
-  position: number;
-  prize_paid?: number | null;
-  pts_prize: number;
-  pts_bonus?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "level".
- */
-export interface Level {
-  id: number;
-  sb: number;
-  bb: number;
-  label?: string | null;
+  structure: number | Structure;
   updatedAt: string;
   createdAt: string;
 }
@@ -314,6 +287,34 @@ export interface Structure {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "level".
+ */
+export interface Level {
+  id: number;
+  sb: number;
+  bb: number;
+  label?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "entry".
+ */
+export interface Entry {
+  id: number;
+  event: number | Event;
+  player: number | Player;
+  status: 'registered' | 'confirmed' | 'cancelled';
+  position: number;
+  prize_paid?: number | null;
+  pts_prize: number;
+  pts_bonus?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -508,6 +509,7 @@ export interface TourneySelect<T extends boolean = true> {
   stack_maxup?: T;
   stack_ontime?: T;
   stack_prereg?: T;
+  structure?: T;
   updatedAt?: T;
   createdAt?: T;
 }

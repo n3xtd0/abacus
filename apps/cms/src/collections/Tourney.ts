@@ -139,5 +139,11 @@ export const Tourney: CollectionConfig = {
       type: 'number',
       required: false,
     },
+    {
+      name: 'structure',
+      type: 'relationship',
+      required: true,
+      relationTo: 'structure',
+    },
   ],
 }
