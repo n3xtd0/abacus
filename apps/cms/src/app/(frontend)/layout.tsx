@@ -1,9 +1,10 @@
 import React from 'react'
 import './styles.css'
+import '@/styles/global.css'
 
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+  description: 'Abacus Admin Panel',
+  title: 'Abacus Admin Panel',
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
