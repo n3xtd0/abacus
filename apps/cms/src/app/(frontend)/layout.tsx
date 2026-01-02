@@ -3,8 +3,8 @@ import './styles.css'
 import '@/styles/global.css'
 
 export const metadata = {
-  description: 'Abacus Admin Panel',
-  title: 'Abacus Admin Panel',
+  description: 'Abacus Poker Club',
+  title: 'Abacus Poker Club',
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
