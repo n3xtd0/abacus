@@ -4,11 +4,15 @@ import Clock from './Clock'
 import { Level } from '@/payload-types'
 import { mixLevelWithBreakDurations } from './utils'
 
-async function Page() {
+async function Page({ params }: { params: { structure: string } }) {
+  const { structure: structureName } = await params
+  console.log('structureName', structureName)
+
+
   const payload = await getPayload({ config })
   const structureDoc = await payload.find({
     collection: 'structure',
-    where: { name: { equals: 'test-structure' } },
+    where: { name: { equals: structureName } },
   })
 
   const structure = structureDoc.docs[0]
