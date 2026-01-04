@@ -144,6 +144,7 @@ export const Tourney: CollectionConfig = {
       type: 'relationship',
       required: true,
       relationTo: 'structure',
+      hasMany: false,
     },
   ],
 }

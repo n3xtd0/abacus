@@ -10,7 +10,7 @@ interface Props {
   levels: Level[]
 }
 export const useLevelsChecked = ({ fields, path, levels }: Props) => {
-  const { value: levelsChecked, setValue: setLevelsChecked } = useField<Level['id'][]>({ path })
+  const { value: levelsChecked = [], setValue: setLevelsChecked } = useField<Level['id'][]>({ path })
   
   useEffect(() => {
     const breakDurationIds = buildLevelTimes('breakDurations', fields).map((item) => item.levelId)
