@@ -12,13 +12,14 @@ export const LabeledInput = ({ label, value, onChange, type = 'checkbox', classN
   const isCheckbox = type === 'checkbox'
   const checked = isCheckbox ? value === 'true' : undefined
 
+  const borderColor = value ? 'border-green-400/30' : ''
   return (
     <label className={`flex items-center gap-2 cursor-pointer text-sm pl-6 ${labelClassName}`}>
       <input
         type={type}
         {...(isCheckbox ? { checked } : { value })}
         onChange={onChange}
-        className={`cursor-pointer text-center accent-green-400 ${className} ${value ? 'border-green-400/30' : ''}`}
+        className={`cursor-pointer text-center accent-green-400 ${className} ${borderColor} `}
       />
       <span>{label}</span>
     </label>
