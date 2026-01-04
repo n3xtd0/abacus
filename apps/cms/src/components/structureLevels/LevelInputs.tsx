@@ -26,7 +26,7 @@ export const LevelInputs = ({
       className={`flex flex-col gap-2 p-3 rounded-md border-2 transition-all duration-200 ${
         selected ? 'bg-zinc-900 border-blue-600' : 'bg-zinc-800 border-zinc-700'
       }`}
-      onClick={()=>toggleLevel(level.id)}
+      onClick={() => toggleLevel(level.id)}
     >
       <div onClick={(e) => e.stopPropagation()}>
         <LabeledInput
@@ -38,27 +38,27 @@ export const LevelInputs = ({
         />
       </div>
       {selected && (
-        <div onClick={(e) => e.stopPropagation()}>
-          <LabeledInput
-            type="number"
-            label="Break time after this level"
-            value={breakTime ? breakTime.time.toString() : ''}
-            onChange={(e) => handleBreakChange(level.id, Number(e.target.value))}
-            className=""
-            labelClassName={`${breakTime ? 'text-green-400' : 'text-gray-400'}`}
-          />
-        </div>
-      )}
-      {selected && (
-        <div onClick={(e) => e.stopPropagation()}>
-          <LabeledInput
-            label="Custom time for this level"
-            value={timeEntry ? timeEntry.time.toString() : ''}
-            onChange={(e) => handleTimeChange(level.id, Number(e.target.value))}
-            type="number"
-            className="text-white"
-            labelClassName={`${timeEntry ? 'text-green-400' : 'text-gray-400'}`}
-          />
+        <div className="flex flex-col gap-2">
+          <div onClick={(e) => e.stopPropagation()}>
+            <LabeledInput
+              type="number"
+              label="Break time after this level"
+              value={breakTime ? breakTime.time.toString() : ''}
+              onChange={(e) => handleBreakChange(level.id, Number(e.target.value))}
+              className=""
+              labelClassName={`${breakTime ? 'text-green-400' : 'text-gray-400'}`}
+            />
+          </div>
+          <div onClick={(e) => e.stopPropagation()}>
+            <LabeledInput
+              label="Custom time for this level"
+              value={timeEntry ? timeEntry.time.toString() : ''}
+              onChange={(e) => handleTimeChange(level.id, Number(e.target.value))}
+              type="number"
+              className="text-white"
+              labelClassName={`${timeEntry ? 'text-green-400' : 'text-gray-400'}`}
+            />
+          </div>
         </div>
       )}
     </li>
