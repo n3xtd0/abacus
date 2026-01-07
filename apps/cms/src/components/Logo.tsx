@@ -5,9 +5,23 @@ import Image from 'next/image';
 
 export default function Logo({ className }: { className?: string }) {
   return (
-    <div className={className}>
-      <Image className="h-full w-auto object-contain dark:hidden" src={logo} alt="abacus logo" />
-      <Image className="h-full w-auto object-contain hidden dark:block" src={logoDark} alt="abacus logo" />
+    <div className={className} style={{ minHeight: '50px' }}>
+      <Image 
+        src={logo} 
+        alt="abacus logo" 
+        width={175} 
+        height={150} 
+        className="object-contain dark:hidden" 
+        style={{ width: 'auto', height: '150px' }}
+      />
+      <Image 
+        src={logoDark} 
+        alt="abacus logo" 
+        width={175} 
+        height={150} 
+        className="object-contain hidden dark:block" 
+        style={{ width: 'auto', height: '150px' }}
+      />
     </div>
   );
 }

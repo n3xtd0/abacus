@@ -4,8 +4,12 @@ import Image from 'next/image';
 
 export default function Icon() {
   return (
-    <div>
-      <Image className="w-40" src={logo} alt="abacus icon" />
-    </div>
+    <Image 
+      src={logo} 
+      alt="abacus icon" 
+      width={300} 
+      height={100} 
+      style={{ width: 'auto', height: '50px' }}
+    />
   );
 }
