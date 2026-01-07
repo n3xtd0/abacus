@@ -1,7 +1,7 @@
-import { Level, Structure } from '@/payload-types'
-import { Break } from './types'
+import { Level } from '@/payload-types'
+import { Break, PopulatedStructure } from './types'
 
-export function mixLevelWithBreakDurations(levels: Level[], breakDurations: Structure['breakDurations']) {
+export function mixLevelWithBreakDurations(levels: Level[], breakDurations: PopulatedStructure['breakDurations']) {
   return levels.reduce((acc: (Level | Break)[], level: Level) => {
     const breakDuration = breakDurations?.find((duration) => duration.level.id === level.id)
     if (!breakDuration) return [...acc, level]
