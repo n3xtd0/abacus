@@ -8,8 +8,9 @@ import React from 'react'
 import { importMap } from './admin/importMap.js'
 import '@/styles/payloadStyles.css';
 
-type Args = {
-  children: React.ReactNode
+export const metadata = {
+  description: 'Abacus Admin Panel',
+  title: 'Abacus Admin Panel',
 }
 
 const serverFunction: ServerFunctionClient = async function (args) {
@@ -21,7 +22,7 @@ const serverFunction: ServerFunctionClient = async function (args) {
   })
 }
 
-const Layout = ({ children }: Args) => (
+const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
   <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
     {children}
   </RootLayout>
