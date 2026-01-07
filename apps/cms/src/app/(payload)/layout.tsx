@@ -22,7 +22,8 @@ const serverFunction: ServerFunctionClient = async function (args) {
   })
 }
 
-const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Layout = ({ children }: { children: any }) => (
   <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
     {children}
   </RootLayout>
