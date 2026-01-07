@@ -4,10 +4,8 @@ import Clock from './Clock'
 import { Level } from '@/payload-types'
 import { mixLevelWithBreakDurations } from './utils'
 
-async function Page({ params }: { params: { structure: string } }) {
+async function Page({ params }: { params: Promise<{ structure: string }> }) {
   const { structure: structureName } = await params
-  console.log('structureName', structureName)
-
 
   const payload = await getPayload({ config })
   const structureDoc = await payload.find({
@@ -28,9 +26,7 @@ async function Page({ params }: { params: { structure: string } }) {
   })
 
   return (
-    <div className="App">
       <Clock levels={clockLevels} />
-    </div>
   )
 }
 
