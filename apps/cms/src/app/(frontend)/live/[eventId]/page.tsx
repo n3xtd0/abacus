@@ -3,7 +3,7 @@ import config from '@/payload.config'
 import { Tourney } from '@/payload-types'
 import { LiveEventSupabase } from './LiveEventSSE'
 
-export default async function LivePage({ params }: { params: { eventId: string } }) {
+export default async function LivePage({ params }: { params: Promise<{ eventId: string }> }) {
   const { eventId } = await params
   const payload = await getPayload({ config })
   const event = await payload.findByID({ collection: 'event', id: eventId, depth: 3 })
