@@ -1,13 +1,20 @@
-import React from 'react';
 import logo from '@/assets/abacus-logo.svg';
+import grayLogo from '@/assets/abacus-logo-gray.svg';
 import logoDark from '@/assets/abacus-logo.svg';
 import Image from 'next/image';
 
-export default function Logo({ className, height = 150 }: { className?: string; height?: number }) {
+interface Props {
+  className?: string;
+  height?: number;
+  isGray?: boolean;
+}
+export default function Logo({ className, height = 150, isGray = false }: Props) {
+  const logoSrc = isGray ? grayLogo : logo;
+  const logoDarkSrc = isGray ? grayLogo : logoDark;
   return (
     <div className={className}>
       <Image 
-        src={logo} 
+        src={logoSrc} 
         alt="abacus logo" 
         width={175} 
         height={height} 
@@ -15,7 +22,7 @@ export default function Logo({ className, height = 150 }: { className?: string; 
         style={{ width: 'auto', height: `${height}px` }}
       />
       <Image 
-        src={logoDark} 
+        src={logoDarkSrc} 
         alt="abacus logo" 
         width={175} 
         height={height} 

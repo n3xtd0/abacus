@@ -46,37 +46,35 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
   const nextLevel = levels[tourneyLvl + 1]
 
   return (
-    <div className="h-screen max-h-screen overflow-hidden flex flex-col bg-[#1a1a1a]">
-      <div 
-        className="h-[1vh] min-h-[4px]" 
-        style={{ background: 'linear-gradient(to right, #22d3ee, #4ade80, #facc15, #fb923c, #ef4444)' }}
-      />
-      
+    <div className="h-screen max-h-screen overflow-hidden flex flex-col">
+
       {/* Header bar with level and logo */}
-      <div className="flex items-center justify-between px-[3vw] py-[1vh] bg-[#2a2a2a]">
+      <div className="flex items-center justify-between px-[3vw] py-[1vh] bg-[#2a2a2a]"
+        style={{ background: 'linear-gradient(to right, #22d3ee, #4ade80, #facc15, #fb923c, #ef4444)' }}
+        >
         <div className="flex items-baseline" style={{ fontFamily: 'var(--font-gotham)' }}>
           <span className="text-[3vh] font-light text-white/90 tracking-wide">LEVEL</span>
           <span className="text-[4vh] font-bold text-white ml-[0.5vw]">{tourneyLvl + 1}</span>
         </div>
-        <Logo className="h-[3vh] w-auto" height={30} />
+        <Logo className="h-[3vh] w-auto" height={30} isGray />
       </div>
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col items-center justify-center">
         {/* Flip Clock */}
-        <TimeDisplay mins={timeFormat(mins)} secs={timeFormat(secs)} fontSize="42vh" />
+        <TimeDisplay mins={timeFormat(mins)} secs={timeFormat(secs)} fontSize="37vh" />
 
         {/* Blinds Info - horizontal layout */}
         <div className="flex items-baseline justify-center gap-[2vw] mt-[4vh]" style={{ fontFamily: 'var(--font-gotham)' }}>
-          <div className="flex items-baseline" style={{ fontFamily: 'var(--font-gotham)' }}>
-            <span className="text-[5vh] text-white/80 font-light">SB</span>
+          <div className="flex items-baseline gap-[0.5vw]" style={{ fontFamily: 'var(--font-gotham)' }}>
+            <span className="text-[10vh] text-white/80 font-light">SB</span>
             <span className="text-[10vh] text-white font-bold">{currentLevel?.sb ?? '-'}</span>
           </div>
           
           <span className="text-[6vh] text-white/50 font-light">|</span>
           
-          <div className="flex items-baseline" style={{ fontFamily: 'var(--font-gotham)' }}>
-            <span className="text-[5vh] text-white/80 font-light">BB/ANTE</span>
+          <div className="flex items-baseline gap-[0.5vw]" style={{ fontFamily: 'var(--font-gotham)' }}>
+            <span className="text-[10vh] text-white/80 font-light">BB/ANTE</span>
             <span className="text-[10vh] text-white font-bold">{currentLevel?.bb ?? '-'}</span>
           </div>
         </div>
