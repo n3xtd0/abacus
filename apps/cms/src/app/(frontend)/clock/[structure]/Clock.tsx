@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import useTimer from './useTimer'
 import { ClockLevel } from './types'
 import Logo from '@/components/Logo'
+import TimeDisplay from './TimeDisplay'
 
 function timeFormat(num: number) {
   return num.toLocaleString('en-US', {
@@ -41,64 +42,74 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
     setLevelTime(levels[tourneyLvl+1].time)
   }, [tourneyLvl, setTourneyLvl, levels])
 
-  
-// Logo, nivel
-// min:sec
-// SB:xxxxx BB: xxxxxxx
-// proximo nivel: SB/BB
+  const currentLevel = levels[tourneyLvl]
+  const nextLevel = levels[tourneyLvl + 1]
 
   return (
-    <div className="App mx-auto h-screen max-h-screen overflow-hidden flex flex-col items-center py-[2vh]">
-      {/* Logo - 20% of viewport height */}
-      <Logo className="h-[20vh] w-auto mx-auto"/>
-
-      {/* Main Timer - takes ~35% of viewport height */}
-      <div className="text-[40vh] mb-[5vh] font-bold text-center leading-none tracking-tight">
-        {`${timeFormat(mins)}:${timeFormat(secs)}`}
+    <div className="h-screen max-h-screen overflow-hidden flex flex-col bg-[#1a1a1a]">
+      <div 
+        className="h-[1vh] min-h-[4px]" 
+        style={{ background: 'linear-gradient(to right, #22d3ee, #4ade80, #facc15, #fb923c, #ef4444)' }}
+      />
+      
+      {/* Header bar with level and logo */}
+      <div className="flex items-center justify-between px-[3vw] py-[1vh] bg-[#2a2a2a]">
+        <div className="flex items-baseline" style={{ fontFamily: 'var(--font-gotham)' }}>
+          <span className="text-[3vh] font-light text-white/90 tracking-wide">LEVEL</span>
+          <span className="text-[4vh] font-bold text-white ml-[0.5vw]">{tourneyLvl + 1}</span>
+        </div>
+        <Logo className="h-[3vh] w-auto" height={30} />
       </div>
 
-      {/* Blinds Info - aligned grid layout ~25% */}
-      <div className="flex flex-col gap-[1vh] w-full max-w-xl px-8">
-        {/* Current Level */}
-        <div className="grid grid-cols-2 mb-[1vh]">
-          <div className="flex items-baseline gap-2">
-            <span className="text-[6vh]">SB:</span>
-            <span className="text-[9vh] font-semibold">{levels[tourneyLvl]?.sb ?? '-'}</span>
+      {/* Main content area */}
+      <div className="flex-1 flex flex-col items-center justify-center">
+        {/* Flip Clock */}
+        <TimeDisplay mins={timeFormat(mins)} secs={timeFormat(secs)} fontSize="42vh" />
+
+        {/* Blinds Info - horizontal layout */}
+        <div className="flex items-baseline justify-center gap-[2vw] mt-[4vh]" style={{ fontFamily: 'var(--font-gotham)' }}>
+          <div className="flex items-baseline" style={{ fontFamily: 'var(--font-gotham)' }}>
+            <span className="text-[5vh] text-white/80 font-light">SB</span>
+            <span className="text-[10vh] text-white font-bold">{currentLevel?.sb ?? '-'}</span>
           </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-[6vh]">BB+ANTE:</span>
-            <span className="text-[9vh] font-semibold">{levels[tourneyLvl]?.bb ?? '-'}</span>
+          
+          <span className="text-[6vh] text-white/50 font-light">|</span>
+          
+          <div className="flex items-baseline" style={{ fontFamily: 'var(--font-gotham)' }}>
+            <span className="text-[5vh] text-white/80 font-light">BB/ANTE</span>
+            <span className="text-[10vh] text-white font-bold">{currentLevel?.bb ?? '-'}</span>
           </div>
         </div>
 
-        {/* Next Level - 2/3 size, same alignment */}
-        <div className="opacity-70 mt-[1vh]">
-          <div className="text-[3vh] mb-[1vh]">Próximo nivel</div>
-          <div className="grid grid-cols-2 ">
-            <div className="flex items-baseline gap-1">
-              <span className="text-[3.5vh]">SB:</span>
-              <span className="text-[6vh] font-semibold">{levels[tourneyLvl + 1]?.sb ?? '-'}</span>
-            </div>
-            <div className="flex items-baseline gap-1">
-              <span className="text-[2vh]">BB+ANTE:</span>
-              <span className="text-[6vh] font-semibold">{levels[tourneyLvl + 1]?.bb ?? '-'}</span>
-            </div>
-          </div>
+        {/* Next Level */}
+        <div className="flex items-baseline justify-center mt-[3vh] text-white/70" style={{ fontFamily: 'var(--font-gotham)' }}>
+          <span className="text-[3.5vh] font-light tracking-wide">NEXT LEVEL:</span>
+          <span className="text-[4vh] font-medium ml-[1vw]">
+            {nextLevel ? `${nextLevel.sb}/${nextLevel.bb}` : '-'}
+          </span>
         </div>
       </div>
 
-      {/* Controls - 8% of viewport */}
-      <div className="flex justify-center gap-[2vw] mx-auto h-[8vh] items-center"> 
-        <button className="text-[4vh] px-4 hover:opacity-70 transition-opacity" onClick={goPrevLvl}>
+      {/* Controls */}
+      <div className="flex justify-center gap-[3vw] py-[1vh] bg-[#2a2a2a]"> 
+        <button className="text-[4vh] px-6 py-2 text-white/80 hover:text-white transition-colors" onClick={goPrevLvl}>
           ⏮︎
         </button>
-        <button className="text-[5vh] px-4 hover:opacity-70 transition-opacity" onClick={() => setIsPaused(false)} style={{ display: isPaused ? '' : 'none' }}>
+        <button 
+          className="text-[5vh] px-6 py-2 text-white/80 hover:text-white transition-colors" 
+          onClick={() => setIsPaused(false)} 
+          style={{ display: isPaused ? '' : 'none' }}
+        >
           ⏵︎
         </button>
-        <button className="text-[5vh] px-4 hover:opacity-70 transition-opacity" onClick={() => setIsPaused(true)} style={{ display: !isPaused ? '' : 'none' }}>
+        <button 
+          className="text-[5vh] px-6 py-2 text-white/80 hover:text-white transition-colors" 
+          onClick={() => setIsPaused(true)} 
+          style={{ display: !isPaused ? '' : 'none' }}
+        >
           ⏸︎
         </button>
-        <button className="text-[4vh] px-4 hover:opacity-70 transition-opacity" onClick={goNextLvl}>
+        <button className="text-[4vh] px-6 py-2 text-white/80 hover:text-white transition-colors" onClick={goNextLvl}>
           ⏭︎
         </button>
       </div>
