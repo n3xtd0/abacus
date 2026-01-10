@@ -1,6 +1,7 @@
 :root {
   --font-mono: 'Roboto Mono', monospace;
   --gradient-rainbow: linear-gradient(to right, #22d3eeB3, #4ade80B3, #faB315B3, #fb923B3C, #ef4444B3);
+  --gradient-gray: linear-gradient(to right, #2a2a2a, #3a3a3a, #4a4a4a, #5a5a5a, #6a6a6a);
 }
 
 * {

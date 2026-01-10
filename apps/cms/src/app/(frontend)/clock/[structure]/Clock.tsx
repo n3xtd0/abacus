@@ -49,12 +49,12 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
     <div className="h-screen max-h-screen overflow-hidden flex flex-col">
       {/* Header bar with level and logo */}
       <div
-        className="flex items-center justify-between px-[3vw] py-[1vh] bg-[#2a2a2a]"
+        className="flex items-center justify-between px-[3vw] py-[1.5vh] bg-[#2a2a2a]"
         style={{ background: 'var(--gradient-rainbow)' }}
       >
         <div className="flex items-baseline" style={{ fontFamily: 'var(--font-gotham)' }}>
-          <span className="text-[4vh] font-light text-white/90 tracking-wide">LEVEL</span>
-          <span className="text-[4vh] font-bold text-white ml-[0.5vw]">{tourneyLvl + 1}</span>
+          <span className="text-[5vh] font-light text-white/90 tracking-wide">LEVEL</span>
+          <span className="text-[5vh] font-bold text-white ml-[0.5vw]">{tourneyLvl + 1}</span>
         </div>
         <Logo className="h-[3vh] w-auto" height={30} isGray />
       </div>
@@ -80,9 +80,12 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
         </div>
 
         {/* Next Level */}
-        <div className="flex items-baseline justify-center mt-[3vh] text-white/70" style={{ fontFamily: 'var(--font-gotham)' }}>
-          <span className="text-[3.5vh] font-light tracking-wide">NEXT LEVEL:</span>
-          <span className="text-[4vh] font-medium ml-[1vw]">{nextLevel ? `${nextLevel.sb}/${nextLevel.bb}` : '-'}</span>
+        <div
+          className="flex justify-center mt-[3vh] text-white/70 w-full self-stretch py-[2vh]"
+          style={{ fontFamily: 'var(--font-gotham)', background: 'var(--gradient-gray)' }}
+        >
+          <span className="text-[5vh] font-light tracking-wide">NEXT LEVEL:</span>
+          <span className="text-[7vh] font-medium ml-[1vw]">{nextLevel ? `${nextLevel.sb}/${nextLevel.bb}` : '-'}</span>
         </div>
       </div>
 
