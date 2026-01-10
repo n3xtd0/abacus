@@ -50,7 +50,7 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
 
       {/* Header bar with level and logo */}
       <div className="flex items-center justify-between px-[3vw] py-[1vh] bg-[#2a2a2a]"
-        style={{ background: 'linear-gradient(to right, #22d3ee, #4ade80, #facc15, #fb923c, #ef4444)' }}
+        style={{ background: 'linear-gradient(to right, #22d3eeB3, #4ade80B3, #faB315B3, #fb923B3C, #ef4444B3)' }}
         >
         <div className="flex items-baseline" style={{ fontFamily: 'var(--font-gotham)' }}>
           <span className="text-[3vh] font-light text-white/90 tracking-wide">LEVEL</span>
