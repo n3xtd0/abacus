@@ -1,6 +1,7 @@
 import React from 'react'
 import './styles.css'
 import '@/styles/global.css'
+import { gothamCondensed } from './fonts'
 
 export const metadata = {
   description: 'Abacus Poker Club',
@@ -12,7 +13,7 @@ export default async function RootLayout(props: { children: any }) {
   const { children } = props
 
   return (
-    <html lang="en">
+    <html lang="en" className={gothamCondensed.variable}>
       <body>
         <main>{children}</main>
       </body>
