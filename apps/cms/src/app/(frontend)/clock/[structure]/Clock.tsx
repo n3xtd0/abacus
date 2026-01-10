@@ -32,14 +32,14 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
     if (tourneyLvl === 0) return
 
     setTourneyLvl((prev) => prev - 1)
-    setLevelTime(levels[tourneyLvl-1].time)
+    setLevelTime(levels[tourneyLvl - 1].time)
   }, [tourneyLvl, setTourneyLvl, levels])
 
   const goNextLvl = useCallback(() => {
     if (tourneyLvl === levels.length - 1) return
 
     setTourneyLvl((prev) => prev + 1)
-    setLevelTime(levels[tourneyLvl+1].time)
+    setLevelTime(levels[tourneyLvl + 1].time)
   }, [tourneyLvl, setTourneyLvl, levels])
 
   const currentLevel = levels[tourneyLvl]
@@ -47,13 +47,13 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
 
   return (
     <div className="h-screen max-h-screen overflow-hidden flex flex-col">
-
       {/* Header bar with level and logo */}
-      <div className="flex items-center justify-between px-[3vw] py-[1vh] bg-[#2a2a2a]"
-        style={{ background: 'linear-gradient(to right, #22d3eeB3, #4ade80B3, #faB315B3, #fb923B3C, #ef4444B3)' }}
-        >
+      <div
+        className="flex items-center justify-between px-[3vw] py-[1vh] bg-[#2a2a2a]"
+        style={{ background: 'var(--gradient-rainbow)' }}
+      >
         <div className="flex items-baseline" style={{ fontFamily: 'var(--font-gotham)' }}>
-          <span className="text-[3vh] font-light text-white/90 tracking-wide">LEVEL</span>
+          <span className="text-[4vh] font-light text-white/90 tracking-wide">LEVEL</span>
           <span className="text-[4vh] font-bold text-white ml-[0.5vw]">{tourneyLvl + 1}</span>
         </div>
         <Logo className="h-[3vh] w-auto" height={30} isGray />
@@ -70,9 +70,9 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
             <span className="text-[10vh] text-white/80 font-light">SB</span>
             <span className="text-[10vh] text-white font-bold">{currentLevel?.sb ?? '-'}</span>
           </div>
-          
+
           <span className="text-[6vh] text-white/50 font-light">|</span>
-          
+
           <div className="flex items-baseline gap-[0.5vw]" style={{ fontFamily: 'var(--font-gotham)' }}>
             <span className="text-[10vh] text-white/80 font-light">BB/ANTE</span>
             <span className="text-[10vh] text-white font-bold">{currentLevel?.bb ?? '-'}</span>
@@ -82,27 +82,25 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
         {/* Next Level */}
         <div className="flex items-baseline justify-center mt-[3vh] text-white/70" style={{ fontFamily: 'var(--font-gotham)' }}>
           <span className="text-[3.5vh] font-light tracking-wide">NEXT LEVEL:</span>
-          <span className="text-[4vh] font-medium ml-[1vw]">
-            {nextLevel ? `${nextLevel.sb}/${nextLevel.bb}` : '-'}
-          </span>
+          <span className="text-[4vh] font-medium ml-[1vw]">{nextLevel ? `${nextLevel.sb}/${nextLevel.bb}` : '-'}</span>
         </div>
       </div>
 
       {/* Controls */}
-      <div className="flex justify-center gap-[3vw] py-[1vh] bg-[#2a2a2a]"> 
+      <div className="flex justify-center gap-[3vw] py-[1vh] bg-[#2a2a2a]">
         <button className="text-[4vh] px-6 py-2 text-white/80 hover:text-white transition-colors" onClick={goPrevLvl}>
           ⏮︎
         </button>
-        <button 
-          className="text-[5vh] px-6 py-2 text-white/80 hover:text-white transition-colors" 
-          onClick={() => setIsPaused(false)} 
+        <button
+          className="text-[5vh] px-6 py-2 text-white/80 hover:text-white transition-colors"
+          onClick={() => setIsPaused(false)}
           style={{ display: isPaused ? '' : 'none' }}
         >
           ⏵︎
         </button>
-        <button 
-          className="text-[5vh] px-6 py-2 text-white/80 hover:text-white transition-colors" 
-          onClick={() => setIsPaused(true)} 
+        <button
+          className="text-[5vh] px-6 py-2 text-white/80 hover:text-white transition-colors"
+          onClick={() => setIsPaused(true)}
           style={{ display: !isPaused ? '' : 'none' }}
         >
           ⏸︎
