@@ -71,7 +71,7 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
             <span className="text-[10vh] text-white font-bold">{currentLevel?.sb ?? '-'}</span>
           </div>
 
-          <span className="text-[6vh] text-white/50 font-light">|</span>
+          <span className="text-[10vh] text-white/50 font-light">|</span>
 
           <div className="flex items-baseline gap-[0.5vw]" style={{ fontFamily: 'var(--font-gotham)' }}>
             <span className="text-[10vh] text-white/80 font-light">BB/ANTE</span>
