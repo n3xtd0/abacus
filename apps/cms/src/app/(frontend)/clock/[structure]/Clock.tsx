@@ -65,7 +65,7 @@ export default function Clock({ levels }: { levels: ClockLevel[] }) {
         <TimeDisplay mins={timeFormat(mins)} secs={timeFormat(secs)} fontSize="37vh" />
 
         {/* Blinds Info - horizontal layout */}
-        <div className="flex items-baseline justify-center gap-[2vw] mt-[4vh]" style={{ fontFamily: 'var(--font-gotham)' }}>
+        <div className="flex items-baseline justify-center gap-[1vw] mt-[4vh]" style={{ fontFamily: 'var(--font-gotham)' }}>
           <div className="flex items-baseline gap-[0.5vw]" style={{ fontFamily: 'var(--font-gotham)' }}>
             <span className="text-[10vh] text-white/80 font-light">SB</span>
             <span className="text-[10vh] text-white font-bold">{currentLevel?.sb ?? '-'}</span>
