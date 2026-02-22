@@ -34,6 +34,9 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Player, Event, Tourney, Entry, League, Level, Structure],
+  routes: {
+
+  },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
