@@ -136,6 +136,9 @@ export const LiveEvent: CollectionConfig = {
       type: 'relationship',
       relationTo: 'level',
       required: true,
+      admin: {
+        hidden: true,
+      },
     },
     {
       name: 'current_time',
