@@ -43,6 +43,11 @@ export const LiveEvent: CollectionConfig = {
   admin: {
     useAsTitle: 'event',
     defaultColumns: ['event', 'status', 'current_level', 'current_time', 'updatedAt'],
+    components: {
+      edit: {
+        beforeDocumentControls: ['/components/liveEvent/LivePageButton#LivePageButton'],
+      },
+    },
   },
   access: {
     read: () => true,

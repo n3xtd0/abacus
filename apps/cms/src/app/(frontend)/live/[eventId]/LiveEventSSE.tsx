@@ -106,7 +106,7 @@ export function LiveEventSupabase({ event, initialLiveEvent, tourney, levels }: 
       </header>
 
       <aside className="border-r border-[#31413f] px-5 py-[1.6rem] max-[800px]:row-start-3 max-[800px]:border-x-0 max-[800px]:border-b">
-        <h1 className="mb-5 text-[clamp(1.45rem,2.2vw,2.1rem)] font-bold tracking-[-0.025em] text-[#f2f2f2]">STATS</h1>
+        <h1 className="mb-5 text-[clamp(1.45rem,2.2vw,2.1rem)] font-bold tracking-[-0.025em] text-[#f2f2f2]">{tourney.name}</h1>
         <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.85rem] text-[#b9c2c0]">
           Jugadores:
           <span className="text-[clamp(1.35rem,2.3vw,2.1rem)] font-bold text-[#55d6c8]">

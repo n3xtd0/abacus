@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import type { ComponentType } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 import { vi } from 'vitest'
 
 const state = vi.hoisted(() => ({
@@ -15,6 +15,19 @@ const state = vi.hoisted(() => ({
 }))
 
 vi.mock('@payloadcms/ui', () => ({
+  Button: ({
+    children,
+    newTab,
+    url,
+  }: {
+    children: ReactNode
+    newTab?: boolean
+    url?: string
+  }) => (
+    <a href={url} target={newTab ? '_blank' : undefined}>
+      {children}
+    </a>
+  ),
   FieldLabel: ({ label }: { label: string }) => <label>{label}</label>,
   useFormFields: (selector: (formState: unknown) => unknown) => selector([state.fields]),
   useField: ({ path }: { path: string }) => ({
@@ -24,6 +37,7 @@ vi.mock('@payloadcms/ui', () => ({
 
 import { LiveControls } from './LiveControls'
 import { LiveNumberControl } from './LiveNumberControl'
+import { LivePageButton } from './LivePageButton'
 
 describe('LiveControls', () => {
   const Controls = LiveControls as unknown as ComponentType<{ path: string }>
@@ -96,5 +110,12 @@ describe('LiveControls', () => {
         }),
       ),
     )
+  })
+
+  it('opens the related event live page in a new tab', () => {
+    render(<LivePageButton />)
+
+    expect(screen.getByRole('link', { name: 'Open live page' })).toHaveAttribute('href', '/live/1')
+    expect(screen.getByRole('link', { name: 'Open live page' })).toHaveAttribute('target', '_blank')
   })
 })
