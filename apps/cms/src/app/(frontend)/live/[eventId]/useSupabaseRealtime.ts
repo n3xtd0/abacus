@@ -1,9 +1,9 @@
 import { useState, useMemo, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
-import { Event } from '@/payload-types'
+import { LiveEvent } from '@/payload-types'
 
-export function useSupabaseRealtime(eventId: string, initialEvent: Event) {
-  const [event, setEvent] = useState<Event>(initialEvent)
+export function useSupabaseRealtime(liveEventId: number, initialLiveEvent: LiveEvent) {
+  const [liveEvent, setLiveEvent] = useState<LiveEvent>(initialLiveEvent)
 
   const supabase = useMemo(
     () =>
@@ -15,37 +15,30 @@ export function useSupabaseRealtime(eventId: string, initialEvent: Event) {
   )
 
   useEffect(() => {
-    console.log('🔄 Connecting to Supabase Realtime for event:', eventId)
-
     const channel = supabase
-      .channel(`event-${eventId}`)
+      .channel(`live-event-${liveEventId}`)
       .on(
         'postgres_changes',
         {
           event: 'UPDATE',
           schema: 'public',
-          table: 'event',
-          filter: `id=eq.${eventId}`,
+          table: 'live_event',
+          filter: `id=eq.${liveEventId}`,
         },
-        async (payload) => {
-          console.log('📨 Supabase change detected:', payload)
-          setEvent(payload.new as unknown as Event)
+        (payload) => {
+          setLiveEvent((previousLiveEvent) => ({
+            ...previousLiveEvent,
+            ...(payload.new as Partial<LiveEvent>),
+            current_level: payload.new.current_level_id ?? previousLiveEvent.current_level,
+          }))
         },
       )
-      .subscribe((status) => {
-        console.log('Supabase subscription status:', status)
-        if (status === 'SUBSCRIBED') {
-          console.log('🟢 Supabase connected')
-        } else if (status === 'CLOSED') {
-          console.log('🔴 Supabase disconnected')
-        }
-      })
+      .subscribe()
 
     return () => {
-      console.log('🛑 Unsubscribing from Supabase channels')
       supabase.removeChannel(channel)
     }
-  }, [eventId, supabase])
+  }, [liveEventId, supabase])
 
-  return { event }
+  return { liveEvent }
 }

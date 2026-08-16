@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     player: Player;
     event: Event;
+    'live-event': LiveEvent;
     tourney: Tourney;
     entry: Entry;
     league: League;
@@ -86,6 +87,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     player: PlayerSelect<false> | PlayerSelect<true>;
     event: EventSelect<false> | EventSelect<true>;
+    'live-event': LiveEventSelect<false> | LiveEventSelect<true>;
     tourney: TourneySelect<false> | TourneySelect<true>;
     entry: EntrySelect<false> | EntrySelect<true>;
     league: LeagueSelect<false> | LeagueSelect<true>;
@@ -201,12 +203,6 @@ export interface Event {
   date: string;
   time: string;
   max_players: number;
-  num_entries: number;
-  num_rebuys?: number | null;
-  num_addons?: number | null;
-  num_addups?: number | null;
-  num_topups?: number | null;
-  num_maxups?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -305,6 +301,26 @@ export interface Level {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "live-event".
+ */
+export interface LiveEvent {
+  id: number;
+  event: number | Event;
+  num_entries: number;
+  num_rebuys?: number | null;
+  num_addons?: number | null;
+  num_addups?: number | null;
+  num_topups?: number | null;
+  num_maxups?: number | null;
+  current_level: number | Level;
+  current_time: number;
+  status: 'paused' | 'running';
+  clock_started_at?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "entry".
  */
 export interface Entry {
@@ -341,6 +357,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'event';
         value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'live-event';
+        value: number | LiveEvent;
       } | null)
     | ({
         relationTo: 'tourney';
@@ -473,12 +493,25 @@ export interface EventSelect<T extends boolean = true> {
   date?: T;
   time?: T;
   max_players?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "live-event_select".
+ */
+export interface LiveEventSelect<T extends boolean = true> {
+  event?: T;
   num_entries?: T;
   num_rebuys?: T;
   num_addons?: T;
   num_addups?: T;
   num_topups?: T;
   num_maxups?: T;
+  current_level?: T;
+  current_time?: T;
+  status?: T;
+  clock_started_at?: T;
   updatedAt?: T;
   createdAt?: T;
 }

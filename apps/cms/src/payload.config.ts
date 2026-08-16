@@ -11,6 +11,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Player } from './collections/Player'
 import { Event } from './collections/Event'
+import { LiveEvent } from './collections/LiveEvent'
 import { Tourney } from './collections/Tourney'
 import { Entry } from './collections/Entry'
 import { League } from './collections/League'
@@ -33,7 +34,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Media, Player, Event, Tourney, Entry, League, Level, Structure],
+  collections: [Users, Media, Player, Event, LiveEvent, Tourney, Entry, League, Level, Structure],
   routes: {
 
   },

@@ -1,0 +1,125 @@
+import type { CollectionAfterChangeHook, CollectionConfig } from 'payload'
+import { getLevelDurationSeconds, relatedID } from '@/lib/liveEvent'
+import type { Level, Structure, Tourney } from '@/payload-types'
+
+const createLiveState: CollectionAfterChangeHook = async ({ doc, operation, req }) => {
+  if (operation !== 'create') return doc
+
+  const tourney = await req.payload.findByID({
+    collection: 'tourney',
+    id: relatedID(doc.tourney as number | Tourney),
+    depth: 1,
+  })
+  const structure = tourney.structure as Structure
+  const firstLevel = structure.levels[0] as number | Level | undefined
+
+  if (!firstLevel) {
+    throw new Error(`Tourney ${tourney.id} has no structure levels configured.`)
+  }
+
+  const currentLevel = relatedID(firstLevel)
+  await req.payload.create({
+    collection: 'live-event',
+    data: {
+      event: doc.id,
+      current_level: currentLevel,
+      current_time: getLevelDurationSeconds(structure, currentLevel),
+      status: 'paused',
+      num_entries: 0,
+    },
+  })
+
+  return doc
+}
+
+export const LiveEvent: CollectionConfig = {
+  slug: 'live-event',
+  admin: {
+    useAsTitle: 'event',
+    defaultColumns: ['event', 'status', 'current_level', 'current_time', 'updatedAt'],
+  },
+  access: {
+    read: () => true,
+  },
+  fields: [
+    {
+      name: 'event',
+      type: 'relationship',
+      relationTo: 'event',
+      required: true,
+      unique: true,
+    },
+    {
+      name: 'num_entries',
+      type: 'number',
+      required: true,
+      defaultValue: 0,
+      min: 0,
+    },
+    {
+      name: 'num_rebuys',
+      type: 'number',
+      defaultValue: 0,
+      min: 0,
+    },
+    {
+      name: 'num_addons',
+      type: 'number',
+      defaultValue: 0,
+      min: 0,
+    },
+    {
+      name: 'num_addups',
+      type: 'number',
+      defaultValue: 0,
+      min: 0,
+    },
+    {
+      name: 'num_topups',
+      type: 'number',
+      defaultValue: 0,
+      min: 0,
+    },
+    {
+      name: 'num_maxups',
+      type: 'number',
+      defaultValue: 0,
+      min: 0,
+    },
+    {
+      name: 'current_level',
+      type: 'relationship',
+      relationTo: 'level',
+      required: true,
+    },
+    {
+      name: 'current_time',
+      type: 'number',
+      required: true,
+      min: 0,
+      admin: {
+        components: {
+          Field: '/components/liveEvent/LiveControls#LiveControls',
+        },
+      },
+    },
+    {
+      name: 'status',
+      type: 'select',
+      required: true,
+      defaultValue: 'paused',
+      options: ['paused', 'running'],
+    },
+    {
+      name: 'clock_started_at',
+      type: 'date',
+      admin: {
+        hidden: true,
+      },
+    },
+  ],
+}
+
+export const eventHooks = {
+  afterChange: [createLiveState],
+}

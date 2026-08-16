@@ -1,0 +1,94 @@
+.controls {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--theme-elevation-250);
+  border-radius: 0.5rem;
+  background: var(--theme-elevation-50);
+}
+
+.readout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0.75rem 0 1rem;
+}
+
+.stat {
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  background: var(--theme-elevation-100);
+  font-size: 0.95rem;
+}
+
+.statValue {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.button {
+  min-height: 48px;
+  padding: 0.75rem;
+  border: 1px solid var(--theme-elevation-400);
+  border-radius: 0.375rem;
+  background: var(--theme-elevation-100);
+  color: var(--theme-text);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--theme-elevation-150);
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--theme-success-500);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.primaryButton {
+  border-color: var(--theme-success-500);
+  background: var(--theme-success-500);
+  color: var(--theme-elevation-0);
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: var(--theme-success-600);
+}
+
+.help {
+  margin: 1rem 0 0;
+  color: var(--theme-elevation-600);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 600px) {
+  .controls {
+    padding: 0.875rem;
+  }
+
+  .readout,
+  .actions {
+    grid-template-columns: 1fr;
+  }
+
+  .button {
+    min-height: 56px;
+    font-size: 1.0625rem;
+  }
+}

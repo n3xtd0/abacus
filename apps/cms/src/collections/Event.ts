@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { eventHooks } from './LiveEvent'
 
 export const Event: CollectionConfig = {
   slug: 'event',
@@ -8,6 +9,7 @@ export const Event: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
   },
+  hooks: eventHooks,
   fields: [
     {
       name: 'name',
@@ -45,36 +47,6 @@ export const Event: CollectionConfig = {
       name: 'max_players',
       type: 'number',
       required: true,
-    },
-    {
-      name: 'num_entries',
-      type: 'number',
-      required: true,
-    },
-    {
-      name: 'num_rebuys',
-      type: 'number',
-      required: false,
-    },
-    {
-      name: 'num_addons',
-      type: 'number',
-      required: false,
-    },
-    {
-      name: 'num_addups',
-      type: 'number',
-      required: false,
-    },
-    {
-      name: 'num_topups',
-      type: 'number',
-      required: false,
-    },
-    {
-      name: 'num_maxups',
-      type: 'number',
-      required: false,
     },
   ],
 }
