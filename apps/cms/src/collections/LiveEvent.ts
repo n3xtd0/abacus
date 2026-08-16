@@ -50,41 +50,75 @@ export const LiveEvent: CollectionConfig = {
       unique: true,
     },
     {
-      name: 'num_entries',
-      type: 'number',
-      required: true,
-      defaultValue: 0,
-      min: 0,
-    },
-    {
-      name: 'num_rebuys',
-      type: 'number',
-      defaultValue: 0,
-      min: 0,
-    },
-    {
-      name: 'num_addons',
-      type: 'number',
-      defaultValue: 0,
-      min: 0,
-    },
-    {
-      name: 'num_addups',
-      type: 'number',
-      defaultValue: 0,
-      min: 0,
-    },
-    {
-      name: 'num_topups',
-      type: 'number',
-      defaultValue: 0,
-      min: 0,
-    },
-    {
-      name: 'num_maxups',
-      type: 'number',
-      defaultValue: 0,
-      min: 0,
+      type: 'row',
+      fields: [
+        {
+          name: 'num_entries',
+          type: 'number',
+          required: true,
+          defaultValue: 0,
+          min: 0,
+          admin: {
+            components: {
+              Field: '/components/liveEvent/LiveNumberControl#LiveNumberControls',
+            },
+          },
+        },
+        {
+          name: 'num_rebuys',
+          type: 'number',
+          defaultValue: 0,
+          min: 0,
+          admin: {
+            hidden: true,
+          },
+        },
+        {
+          name: 'num_addons',
+          type: 'number',
+          defaultValue: 0,
+          min: 0,
+          admin: {
+            hidden: true,
+          },
+        },
+        {
+          name: 'num_addups',
+          type: 'number',
+          defaultValue: 0,
+          min: 0,
+          admin: {
+            hidden: true,
+          },
+        },
+        {
+          name: 'num_topups',
+          type: 'number',
+          defaultValue: 0,
+          min: 0,
+          admin: {
+            hidden: true,
+          },
+        },
+        {
+          name: 'num_maxups',
+          type: 'number',
+          defaultValue: 0,
+          min: 0,
+          admin: {
+            hidden: true,
+          },
+        },
+        {
+          name: 'num_eliminated',
+          type: 'number',
+          defaultValue: 0,
+          min: 0,
+          admin: {
+            hidden: true,
+          },
+        },
+      ],
     },
     {
       name: 'current_level',

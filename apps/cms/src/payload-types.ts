@@ -235,6 +235,10 @@ export interface Tourney {
   org_type?: ('fixed' | 'percentage') | null;
   org_value?: number | null;
   cost_rebuy?: number | null;
+  /**
+   * Apply fee, pool, and organization deductions to each rebuy.
+   */
+  deduct_rebuy_costs?: boolean | null;
   cost_addon?: number | null;
   cost_addup?: number | null;
   cost_topup?: number | null;
@@ -312,6 +316,7 @@ export interface LiveEvent {
   num_addups?: number | null;
   num_topups?: number | null;
   num_maxups?: number | null;
+  num_eliminated?: number | null;
   current_level: number | Level;
   current_time: number;
   status: 'paused' | 'running';
@@ -508,6 +513,7 @@ export interface LiveEventSelect<T extends boolean = true> {
   num_addups?: T;
   num_topups?: T;
   num_maxups?: T;
+  num_eliminated?: T;
   current_level?: T;
   current_time?: T;
   status?: T;
@@ -531,6 +537,7 @@ export interface TourneySelect<T extends boolean = true> {
   org_type?: T;
   org_value?: T;
   cost_rebuy?: T;
+  deduct_rebuy_costs?: T;
   cost_addon?: T;
   cost_addup?: T;
   cost_topup?: T;

@@ -73,6 +73,14 @@ export const Tourney: CollectionConfig = {
       required: false,
     },
     {
+      name: 'deduct_rebuy_costs',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'Apply fee, pool, and organization deductions to each rebuy.',
+      },
+    },
+    {
       name: 'cost_addon',
       type: 'number',
       required: false,

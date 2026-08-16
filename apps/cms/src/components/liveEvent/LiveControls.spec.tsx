@@ -10,22 +10,24 @@ const state = vi.hoisted(() => ({
     current_time: { value: 1200 },
     status: { value: 'paused' },
     clock_started_at: { value: null },
+    num_entries: { value: 10 },
   },
 }))
 
 vi.mock('@payloadcms/ui', () => ({
   FieldLabel: ({ label }: { label: string }) => <label>{label}</label>,
-  useFormFields: (selector: (formState: unknown) => unknown) =>
-    selector([state.fields]),
+  useFormFields: (selector: (formState: unknown) => unknown) => selector([state.fields]),
   useField: ({ path }: { path: string }) => ({
     setValue: (value: unknown) => state.setValue(path, value),
   }),
 }))
 
 import { LiveControls } from './LiveControls'
+import { LiveNumberControl } from './LiveNumberControl'
 
 describe('LiveControls', () => {
   const Controls = LiveControls as unknown as ComponentType<{ path: string }>
+  const NumberControl = LiveNumberControl as unknown as ComponentType<{ path: string }>
 
   beforeEach(() => {
     state.setValue.mockReset()
@@ -74,6 +76,23 @@ describe('LiveControls', () => {
         expect.objectContaining({
           method: 'PATCH',
           body: JSON.stringify({ current_level: 20, current_time: 900 }),
+        }),
+      ),
+    )
+  })
+
+  it('increments a live number and saves it immediately', async () => {
+    render(<NumberControl path="num_entries" />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Increase Registered players' }))
+
+    expect(state.setValue).toHaveBeenCalledWith('num_entries', 11)
+    await waitFor(() =>
+      expect(fetch).toHaveBeenCalledWith(
+        '/api/live-event/1',
+        expect.objectContaining({
+          method: 'PATCH',
+          body: JSON.stringify({ num_entries: 11 }),
         }),
       ),
     )

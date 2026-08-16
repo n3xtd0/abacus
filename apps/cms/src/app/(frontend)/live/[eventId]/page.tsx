@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@/payload.config'
-import { Event, Level, LiveEvent, Tourney } from '@/payload-types'
+import { Event, Level, LiveEvent, Structure, Tourney } from '@/payload-types'
 import { LiveEventSupabase } from './LiveEventSSE'
 
 export default async function LivePage({ params }: { params: Promise<{ eventId: string }> }) {
@@ -32,12 +32,15 @@ export default async function LivePage({ params }: { params: Promise<{ eventId: 
     ...liveEvent,
     current_level: currentLevel as Level,
   }
+  const structure = tourney.structure as Structure
+  const levels = structure.levels.filter((level): level is Level => typeof level === 'object')
 
   return (
     <LiveEventSupabase
       event={event as Event}
       initialLiveEvent={hydratedLiveEvent as LiveEvent}
       tourney={tourney}
+      levels={levels}
     />
   )
 }
