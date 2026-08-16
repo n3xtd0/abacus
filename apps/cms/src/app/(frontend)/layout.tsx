@@ -6,8 +6,8 @@ import { Azeret_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
 
 export const metadata = {
-  description: 'Abacus Poker Club',
-  title: 'Abacus Poker Club',
+  description: 'Canarias Poker Club',
+  title: 'Canarias Poker Club',
 }
 
 const azeretMono = Azeret_Mono({

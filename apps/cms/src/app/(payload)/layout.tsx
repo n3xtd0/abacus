@@ -9,8 +9,8 @@ import { importMap } from './admin/importMap.js'
 import '@/styles/payloadStyles.css';
 
 export const metadata = {
-  description: 'Abacus Admin Panel',
-  title: 'Abacus Admin Panel',
+  description: 'Canarias Poker Club Admin Panel',
+  title: 'Canarias Poker Club Admin Panel',
 }
 
 const serverFunction: ServerFunctionClient = async function (args) {
