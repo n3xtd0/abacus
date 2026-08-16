@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 756 213" role="img" aria-labelledby="title">
+  <title id="title">CP logo</title>
+  <g fill="#6b7280">
+    <path d="M219 35c-63 0-114 33-114 72s51 72 114 72c29 0 56-7 77-20v-37c-18 13-45 22-77 22-39 0-70-16-70-37s31-37 70-37c32 0 59 9 77 22V55c-21-13-48-20-77-20Z"/>
+    <path fill-rule="evenodd" d="M336 35h106c59 0 99 21 99 52s-40 52-99 52h-62v40h-44V35Zm44 35h62c33 0 55 7 55 17s-22 17-55 17h-62V70Z"/>
+  </g>
+</svg>

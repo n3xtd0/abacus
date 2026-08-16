@@ -1,6 +1,6 @@
-import logo from '@/assets/abacus-logo.svg';
-import grayLogo from '@/assets/abacus-logo-gray.svg';
-import logoDark from '@/assets/abacus-logo.svg';
+import logo from '@/assets/CP-logo.svg';
+import grayLogo from '@/assets/CP-logo-gray.svg';
+import logoDark from '@/assets/CP-logo.svg';
 import Image from 'next/image';
 
 interface Props {
@@ -15,7 +15,7 @@ export default function Logo({ className, height = 150, isGray = false }: Props)
     <div className={className}>
       <Image 
         src={logoSrc} 
-        alt="abacus logo" 
+        alt="CP logo" 
         width={175} 
         height={height} 
         className="object-contain dark:hidden" 
@@ -23,7 +23,7 @@ export default function Logo({ className, height = 150, isGray = false }: Props)
       />
       <Image 
         src={logoDarkSrc} 
-        alt="abacus logo" 
+        alt="CP logo" 
         width={175} 
         height={height} 
         className="object-contain hidden dark:block" 
