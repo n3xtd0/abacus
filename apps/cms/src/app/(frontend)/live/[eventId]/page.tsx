@@ -1,5 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@/payload.config'
+import { sortLevelsByBlinds } from '@/lib/liveEvent'
 import { Event, Level, LiveEvent, Structure, Tourney } from '@/payload-types'
 import { LiveEventSupabase } from './LiveEventSSE'
 
@@ -33,7 +34,7 @@ export default async function LivePage({ params }: { params: Promise<{ eventId: 
     current_level: currentLevel as Level,
   }
   const structure = tourney.structure as Structure
-  const levels = structure.levels.filter((level): level is Level => typeof level === 'object')
+  const levels = sortLevelsByBlinds(structure.levels.filter((level): level is Level => typeof level === 'object'))
 
   return (
     <LiveEventSupabase

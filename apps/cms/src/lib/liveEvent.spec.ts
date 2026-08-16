@@ -7,6 +7,7 @@ import {
   getNetContribution,
   getPlayersInTheMoney,
   getRemainingSeconds,
+  sortLevelsByBlinds,
 } from './liveEvent'
 
 const structure = {
@@ -15,6 +16,17 @@ const structure = {
 } as Structure
 
 describe('live event clock helpers', () => {
+  it('orders levels by big blind, then small blind', () => {
+    const levels = sortLevelsByBlinds([
+      { id: 4, sb: 1500, bb: 2500 },
+      { id: 3, sb: 1000, bb: 2500 },
+      { id: 2, sb: 500, bb: 1000 },
+      { id: 1, sb: 250, bb: 500 },
+    ])
+
+    expect(levels.map(({ id }) => id)).toEqual([1, 2, 3, 4])
+  })
+
   it('uses a per-level duration before the structure default', () => {
     expect(getLevelDurationSeconds(structure, 2)).toBe(900)
     expect(getLevelDurationSeconds(structure, 1)).toBe(1200)

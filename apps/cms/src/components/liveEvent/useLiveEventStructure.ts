@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { sortLevelsByBlinds } from '@/lib/liveEvent'
 import type { Level, Structure, Tourney } from '@/payload-types'
 
 type PopulatedEvent = {
@@ -66,7 +67,7 @@ export const useLiveEventStructure = (eventID?: number) => {
   }, [eventID])
 
   const levels = useMemo(
-    () => structure?.levels.filter((level): level is Level => typeof level === 'object') ?? [],
+    () => sortLevelsByBlinds(structure?.levels.filter((level): level is Level => typeof level === 'object') ?? []),
     [structure],
   )
 

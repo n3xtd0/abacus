@@ -1,5 +1,5 @@
 import type { CollectionAfterChangeHook, CollectionConfig } from 'payload'
-import { getLevelDurationSeconds, relatedID } from '@/lib/liveEvent'
+import { getLevelDurationSeconds, relatedID, sortLevelsByBlinds } from '@/lib/liveEvent'
 import type { Level, Structure, Tourney } from '@/payload-types'
 
 const createLiveState: CollectionAfterChangeHook = async ({ doc, operation, req }) => {
@@ -11,13 +11,19 @@ const createLiveState: CollectionAfterChangeHook = async ({ doc, operation, req 
     depth: 1,
   })
   const structure = tourney.structure as Structure
-  const firstLevel = structure.levels[0] as number | Level | undefined
+  const levelIDs = structure.levels.map((level) => relatedID(level as number | Level))
+  const { docs: levels } = await req.payload.find({
+    collection: 'level',
+    where: { id: { in: levelIDs } },
+    limit: levelIDs.length,
+  })
+  const firstLevel = sortLevelsByBlinds(levels)[0]
 
   if (!firstLevel) {
     throw new Error(`Tourney ${tourney.id} has no structure levels configured.`)
   }
 
-  const currentLevel = relatedID(firstLevel)
+  const currentLevel = firstLevel.id
   await req.payload.create({
     collection: 'live-event',
     data: {

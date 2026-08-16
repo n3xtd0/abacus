@@ -4,6 +4,9 @@ type Related<T> = number | T
 
 export const relatedID = <T extends { id: number }>(value: Related<T>) => (typeof value === 'number' ? value : value.id)
 
+export const sortLevelsByBlinds = <T extends Pick<Level, 'sb' | 'bb'>>(levels: T[]) =>
+  [...levels].sort((left, right) => left.bb - right.bb || left.sb - right.sb)
+
 export const getLevelDurationSeconds = (structure: Structure, levelID: number) => {
   const configuredDuration = structure.levelDurations?.find(({ level }) => relatedID(level as Related<Level>) === levelID)
 
