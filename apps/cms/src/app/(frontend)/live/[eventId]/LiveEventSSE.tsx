@@ -98,69 +98,81 @@ export function LiveEventSupabase({ event, initialLiveEvent, tourney, levels }: 
 
   return (
     <main className="grid min-h-dvh grid-cols-[minmax(13rem,20vw)_minmax(0,1fr)_minmax(13rem,22vw)] grid-rows-[auto_1fr] bg-[#121414] text-[#e8ebea] [font-family:var(--font-gotham),system-ui,sans-serif] max-[800px]:grid-cols-1 max-[800px]:grid-rows-[auto_auto_auto_auto]">
-      <header className="col-span-full flex min-h-[3.6rem] items-center gap-8 border-b border-[#31413f] bg-[linear-gradient(100deg,#123535,#2f2222)] px-9 py-[0.65rem]">
-        <Logo className="h-7 w-auto" height={28} isGray />
-        <span className="font-bold text-[0.85rem] tracking-[0.2em] text-[#64d5c8] after:mt-[0.35rem] after:block after:w-13 after:border-b-2 after:border-[#64d5c8]">
+      <header className="col-span-full flex min-h-[3.6rem] items-center gap-8 border-b border-[#31413f] bg-[linear-gradient(100deg,#123535,#2f2222)] px-9 py-[0.65rem] max-[800px]:gap-5 max-[800px]:px-5 max-[800px]:py-3">
+        <Logo className="h-7 w-auto max-[800px]:h-8" height={28} isGray />
+        <span className="font-bold text-[0.85rem] tracking-[0.2em] text-[#64d5c8] after:mt-[0.35rem] after:block after:w-13 after:border-b-2 after:border-[#64d5c8] max-[800px]:text-[0.95rem]">
           LEVEL {currentLevelIndex >= 0 ? currentLevelIndex + 1 : '-'}
         </span>
       </header>
 
-      <aside className="border-r border-[#31413f] px-5 py-[1.6rem] max-[800px]:row-start-3 max-[800px]:border-x-0 max-[800px]:border-b">
-        <h1 className="mb-5 text-[clamp(1.45rem,2.2vw,2.1rem)] font-bold tracking-[-0.025em] text-[#f2f2f2]">{tourney.name}</h1>
-        <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.85rem] text-[#b9c2c0]">
+      <aside className="border-r border-[#31413f] px-5 py-[1.6rem] max-[800px]:row-start-3 max-[800px]:border-x-0 max-[800px]:border-b max-[800px]:px-5 max-[800px]:py-7">
+        <h1 className="mb-5 text-[clamp(1.45rem,2.2vw,2.1rem)] font-bold tracking-[-0.025em] text-[#f2f2f2] max-[800px]:mb-6 max-[800px]:text-[2rem]">
+          {tourney.name}
+        </h1>
+        <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.85rem] text-[#b9c2c0] max-[800px]:py-4 max-[800px]:text-[1.25rem]">
           Jugadores:
-          <span className="text-[clamp(1.35rem,2.3vw,2.1rem)] font-bold text-[#55d6c8]">
+          <span className="text-[clamp(1.35rem,2.3vw,2.1rem)] font-bold text-[#55d6c8] max-[800px]:text-[1.8rem]">
             {remainingPlayers}/{liveEvent.num_entries}
           </span>
         </p>
-        <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.85rem] text-[#b9c2c0]">
+        <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.85rem] text-[#b9c2c0] max-[800px]:py-4 max-[800px]:text-[1.25rem]">
           Rebuys:
-          <span className="text-[clamp(1.35rem,2.3vw,2.1rem)] font-bold text-[#f0f2f1]">{liveEvent.num_rebuys ?? 0}</span>
+          <span className="text-[clamp(1.35rem,2.3vw,2.1rem)] font-bold text-[#f0f2f1] max-[800px]:text-[1.8rem]">
+            {liveEvent.num_rebuys ?? 0}
+          </span>
         </p>
-        <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.85rem] text-[#b9c2c0]">
+        <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.85rem] text-[#b9c2c0] max-[800px]:py-4 max-[800px]:text-[1.25rem]">
           Addons:
-          <span className="text-[clamp(1.35rem,2.3vw,2.1rem)] font-bold text-[#f0f2f1]">{liveEvent.num_addons ?? 0}</span>
+          <span className="text-[clamp(1.35rem,2.3vw,2.1rem)] font-bold text-[#f0f2f1] max-[800px]:text-[1.8rem]">
+            {liveEvent.num_addons ?? 0}
+          </span>
         </p>
-        <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.85rem] text-[#b9c2c0]">
+        <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.85rem] text-[#b9c2c0] max-[800px]:py-4 max-[800px]:text-[1.25rem]">
           Media fichas:
-          <span className="text-[clamp(1.35rem,2.3vw,2.1rem)] font-bold text-[#f0f2f1]">{formatNumber(averageStack)}</span>
+          <span className="text-[clamp(1.35rem,2.3vw,2.1rem)] font-bold text-[#f0f2f1] max-[800px]:text-[1.8rem]">
+            {formatNumber(averageStack)}
+          </span>
         </p>
       </aside>
 
       <section
-        className="flex min-w-0 flex-col items-center justify-center px-[2vw] pb-10 pt-6 max-[800px]:row-start-2 max-[800px]:min-h-[50dvh]"
+        className="flex min-w-0 flex-col items-center justify-center px-[2vw] pb-10 pt-6 max-[800px]:row-start-2 max-[800px]:min-h-0 max-[800px]:justify-start max-[800px]:px-5 max-[800px]:pb-8 max-[800px]:pt-8"
         aria-label={`${event.name} live clock`}
       >
-        <div className="origin-center scale-[0.92] max-[800px]:scale-[0.72]">
-          <TimeDisplay mins={minuteDisplay} secs={secondDisplay} fontSize="16vw" />
+        <div className="origin-center scale-[0.92] [--clock-font-size:16vw] max-[800px]:scale-100 max-[800px]:[--clock-font-size:35vw]">
+          <TimeDisplay mins={minuteDisplay} secs={secondDisplay} fontSize="var(--clock-font-size)" />
         </div>
-        <div className="mt-3 flex items-baseline justify-center gap-[clamp(0.7rem,1.5vw,1.5rem)] whitespace-nowrap text-[clamp(1.8rem,4vw,4rem)]">
+        <div className="mt-3 flex items-baseline justify-center gap-[clamp(0.7rem,1.5vw,1.5rem)] whitespace-nowrap text-[clamp(1.8rem,4vw,4rem)] max-[800px]:mt-5 max-[800px]:gap-3 max-[800px]:text-[1.75rem]">
           <span className="font-light text-[#c5ccca]">SB</span>
           <span className="font-bold text-[#f5f5f5]">{resolvedLevel?.sb ?? '-'}</span>
           <span className="font-light text-[#59706c]">|</span>
           <span className="font-light text-[#c5ccca]">BB/ANTE</span>
           <span className="font-bold text-[#f5f5f5]">{resolvedLevel?.bb ?? '-'}</span>
         </div>
-        <div className="mt-[1.3rem] flex w-[min(100%,42rem)] justify-center gap-3 bg-[#343535] px-4 py-2 text-[clamp(0.85rem,1.4vw,1.2rem)] tracking-[0.12em] text-[#c9d0ce]">
+        <div className="mt-[1.3rem] flex w-[min(100%,42rem)] justify-center gap-3 bg-[#343535] px-4 py-2 text-[clamp(0.85rem,1.4vw,1.2rem)] tracking-[0.12em] text-[#c9d0ce] max-[800px]:mt-5 max-[800px]:py-3 max-[800px]:text-[1.05rem]">
           <span>NEXT LEVEL:</span>
           <span className="font-bold tracking-normal text-[#f0f3f1]">{nextLevel ? `${nextLevel.sb}/${nextLevel.bb}` : '-'}</span>
         </div>
       </section>
 
-      <aside className="border-l border-[#31413f] px-5 py-[1.6rem] max-[800px]:row-start-4 max-[800px]:border-x-0 max-[800px]:border-b">
-        <h2 className="mb-5 text-[clamp(1.45rem,2.2vw,2.1rem)] font-bold tracking-[-0.025em] text-[#f2f2f2]">PREMIOS</h2>
+      <aside className="border-l border-[#31413f] px-5 py-[1.6rem] max-[800px]:row-start-4 max-[800px]:border-x-0 max-[800px]:border-b max-[800px]:px-5 max-[800px]:py-7">
+        <h2 className="mb-5 text-[clamp(1.45rem,2.2vw,2.1rem)] font-bold tracking-[-0.025em] text-[#f2f2f2] max-[800px]:mb-6 max-[800px]:text-[2rem]">
+          PREMIOS
+        </h2>
         {prizes.length ? (
           prizes.map((prize, index) => (
             <p
-              className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.9rem] text-[#b9c2c0]"
+              className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.9rem] text-[#b9c2c0] max-[800px]:py-4 max-[800px]:text-[1.25rem]"
               key={index}
             >
               <span className={index === 0 ? 'text-[#55d6c8]' : undefined}>{index + 1}º</span>
-              <span className="text-[clamp(1.05rem,1.75vw,1.55rem)] font-bold text-[#f0f2f1]">{formatCurrency(prize)}</span>
+              <span className="text-[clamp(1.05rem,1.75vw,1.55rem)] font-bold text-[#f0f2f1] max-[800px]:text-[1.4rem]">
+                {formatCurrency(prize)}
+              </span>
             </p>
           ))
         ) : (
-          <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.9rem] text-[#b9c2c0]">
+          <p className="m-0 flex items-baseline justify-between gap-3 border-b border-[#303333] py-3 text-[0.9rem] text-[#b9c2c0] max-[800px]:py-4 max-[800px]:text-[1.25rem]">
             Los premios aparecerán cuando haya participantes.
           </p>
         )}

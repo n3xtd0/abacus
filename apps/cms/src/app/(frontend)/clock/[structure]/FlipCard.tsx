@@ -30,12 +30,8 @@ export default function FlipCard({ value, prevValue, fontSize = '18vh' }: FlipCa
     }
   }, [value, prevValue])
 
-  // Calculate card dimensions based on fontSize
-  // fontSize is like "18vh", we extract the number and use it for proportional sizing
-  const fontNum = parseFloat(fontSize)
-  const unit = fontSize.replace(/[\d.]/g, '') || 'vh'
-  const cardWidth = `${fontNum * 1.25}${unit}`
-  const cardHeight = `${fontNum * 1.5}${unit}`
+  const cardWidth = `calc(${fontSize} * 1.25)`
+  const cardHeight = `calc(${fontSize} * 1.5)`
 
   const panelBase = 'absolute inset-x-0 flex items-center justify-center overflow-hidden tracking-wide font-bold'
   const topPanelBase = `${panelBase} top-0 h-1/2 rounded-t-[0.5vh] bg-gradient-to-b from-[#5a5a5a] to-[#4a4a4a] border-b-[0.2vh] border-black/40`

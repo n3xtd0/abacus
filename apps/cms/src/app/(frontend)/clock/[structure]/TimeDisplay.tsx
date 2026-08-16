@@ -15,8 +15,7 @@ export default function TimeDisplay({ mins, secs, fontSize = '18vh' }: { mins: s
     return () => clearTimeout(timer)
   }, [mins, secs])
 
-  const unit = fontSize.replace(/[\d.]/g, '') || 'vh'
-  const separatorHeight = `${parseFloat(fontSize) * 1.4}${unit}`
+  const separatorHeight = `calc(${fontSize} * 1.4)`
 
   return (
     <div className="flex items-center justify-center">
