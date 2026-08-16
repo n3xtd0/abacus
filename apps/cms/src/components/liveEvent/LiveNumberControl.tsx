@@ -83,8 +83,15 @@ export const LiveNumberControl: FieldClientComponent = ({ path }) => (
 
 export const LiveNumberControls: FieldClientComponent = () => (
   <div className="field-type grid grid-cols-2 gap-x-4 max-[400px]:grid-cols-1">
-    {Object.keys(labels).map((fieldPath) => (
-      <LiveNumberInput key={fieldPath} fieldPath={fieldPath} />
-    ))}
+    <div>
+      {['num_rebuys', 'num_addons', 'num_addups', 'num_topups', 'num_maxups'].map((fieldPath) => (
+        <LiveNumberInput key={fieldPath} fieldPath={fieldPath} />
+      ))}
+    </div>
+    <div>
+      {['num_entries', 'num_eliminated'].map((fieldPath) => (
+        <LiveNumberInput key={fieldPath} fieldPath={fieldPath} />
+      ))}
+    </div>
   </div>
 )
