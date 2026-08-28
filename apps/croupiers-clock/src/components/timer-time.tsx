@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -31,9 +31,6 @@ export function TimerTime({ remainingSeconds, urgencyPulse }: TimerTimeProps) {
       >
         {formatTime(remainingSeconds)}
       </Animated.Text>
-      <Text className="mt-3 text-xs font-bold uppercase tracking-widest text-on-surface-variant">
-        Focus session
-      </Text>
     </View>
   );
 }
