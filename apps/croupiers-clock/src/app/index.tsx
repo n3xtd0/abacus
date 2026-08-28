@@ -43,7 +43,10 @@ export default function HomeScreen() {
         />
       ) : (
         <View className="flex-1 px-5 py-6 md:flex-row md:items-center md:justify-center md:gap-16 md:px-8">
-          <TimerDisplay remainingSeconds={timer.remainingSeconds} />
+          <TimerDisplay
+            isRunning={timer.isRunning}
+            remainingSeconds={timer.remainingSeconds}
+          />
           <TimerControls
             isRunning={timer.isRunning}
             quickAddSeconds={quickAddSeconds}
