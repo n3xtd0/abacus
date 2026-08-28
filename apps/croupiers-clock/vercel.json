@@ -1,5 +1,15 @@
 {
   "buildCommand": "expo export -p web",
   "outputDirectory": "dist",
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/croupiers-clock/:path*",
+      "destination": "/:path*"
+    },
+    {
+      "source": "/croupiers-clock",
+      "destination": "/"
+    }
+  ]
 }
