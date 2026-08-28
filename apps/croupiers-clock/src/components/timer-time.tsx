@@ -26,7 +26,7 @@ export function TimerTime({ remainingSeconds, urgencyPulse }: TimerTimeProps) {
   return (
     <View className="items-center">
       <Animated.Text
-        className="text-6xl font-bold tracking-tighter text-on-surface md:text-8xl"
+        className="text-[8rem] font-bold tracking-tighter text-on-surface sm:text-[12rem] md:text-[8rem] lg:text-[12rem] xl:text-[16rem]"
         style={animatedTimeStyle}
       >
         {formatTime(remainingSeconds)}

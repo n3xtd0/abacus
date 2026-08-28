@@ -70,8 +70,8 @@ export function TimerDisplay({ isRunning, remainingSeconds }: TimerDisplayProps)
   }, [isUrgent, urgencyPulse]);
 
   return (
-    <View className="flex-1 items-center justify-center md:max-w-xl">
-      <View className="h-72 w-72 items-center justify-center md:h-96 md:w-96">
+    <View className="flex-1 items-center justify-center">
+      <View className="aspect-square w-full items-center justify-center md:max-w-3xl">
         <TimerProgressRing progress={progress} urgencyPulse={urgencyPulse} />
         <TimerTime
           remainingSeconds={remainingSeconds}
