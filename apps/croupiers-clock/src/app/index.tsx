@@ -1,98 +1,59 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from 'react';
+import { View } from 'react-native';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { TimerControls } from '@/components/timer-controls';
+import { TimerDisplay } from '@/components/timer-display';
+import { TimerHeader } from '@/components/timer-header';
+import { TimerSettings } from '@/components/timer-settings';
+import { useTimer } from '@/hooks/use-timer';
 
 export default function HomeScreen() {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [standardMinutes, setStandardMinutes] = useState('25');
+  const [quickAddSeconds, setQuickAddSeconds] = useState('15');
+  const timer = useTimer();
+
+  const addQuickTime = () => {
+    const seconds = Number.parseInt(quickAddSeconds, 10);
+    timer.addSeconds(Number.isFinite(seconds) ? seconds : 15);
+  };
+
+  const saveSettings = () => {
+    const minutes = Number.parseInt(standardMinutes, 10);
+    if (Number.isFinite(minutes) && minutes > 0) {
+      timer.setMinutes(minutes);
+    }
+    setIsSettingsOpen(false);
+  };
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <View className="flex-1 bg-background pt-safe">
+      <TimerHeader
+        isSettingsOpen={isSettingsOpen}
+        onToggleSettings={() => setIsSettingsOpen((open) => !open)}
+      />
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+      {isSettingsOpen ? (
+        <TimerSettings
+          quickAddSeconds={quickAddSeconds}
+          standardMinutes={standardMinutes}
+          onQuickAddSecondsChange={setQuickAddSeconds}
+          onSave={saveSettings}
+          onStandardMinutesChange={setStandardMinutes}
+        />
+      ) : (
+        <View className="flex-1 px-5 py-6 md:flex-row md:items-center md:justify-center md:gap-16 md:px-8">
+          <TimerDisplay remainingSeconds={timer.remainingSeconds} />
+          <TimerControls
+            isRunning={timer.isRunning}
+            quickAddSeconds={quickAddSeconds}
+            onAddQuickTime={addQuickTime}
+            onReset={timer.reset}
+            onStop={timer.stop}
+            onToggle={timer.toggle}
           />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+        </View>
+      )}
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});
