@@ -3,11 +3,13 @@ import { StyleSheet, View } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedProps,
+  useAnimatedStyle,
   type SharedValue,
 } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 
 type TimerProgressRingProps = {
+  isLinear?: boolean;
   progress: SharedValue<number>;
   urgencyPulse: SharedValue<number>;
 };
@@ -17,6 +19,7 @@ const RING_STROKE_WIDTH = 8;
 const URGENT_RING_STROKE_WIDTH = 14;
 
 export function TimerProgressRing({
+  isLinear = false,
   progress,
   urgencyPulse,
 }: TimerProgressRingProps) {
@@ -33,6 +36,21 @@ export function TimerProgressRing({
       [RING_STROKE_WIDTH, URGENT_RING_STROKE_WIDTH],
     ),
   }));
+
+  const animatedProgressStyle = useAnimatedStyle(() => ({
+    width: `${progress.value * 100}%`,
+  }));
+
+  if (isLinear) {
+    return (
+      <View className="h-4 w-full max-w-sm overflow-hidden rounded-full bg-surface-container-high">
+        <Animated.View
+          className="h-full rounded-full bg-primary"
+          style={animatedProgressStyle}
+        />
+      </View>
+    );
+  }
 
   return (
     <View

@@ -12,11 +12,16 @@ import { TimerProgressRing } from './timer-progress-ring';
 import { TimerTime } from './timer-time';
 
 type TimerDisplayProps = {
+  isCompactLandscape: boolean;
   isRunning: boolean;
   remainingSeconds: number;
 };
 
-export function TimerDisplay({ isRunning, remainingSeconds }: TimerDisplayProps) {
+export function TimerDisplay({
+  isCompactLandscape,
+  isRunning,
+  remainingSeconds,
+}: TimerDisplayProps) {
   const progress = useSharedValue(0);
   const urgencyPulse = useSharedValue(0);
   const previousIsUrgent = useRef(false);
@@ -71,13 +76,27 @@ export function TimerDisplay({ isRunning, remainingSeconds }: TimerDisplayProps)
 
   return (
     <View className="flex-1 items-center justify-center">
-      <View className="aspect-square w-full items-center justify-center md:max-w-3xl">
-        <TimerProgressRing progress={progress} urgencyPulse={urgencyPulse} />
-        <TimerTime
-          remainingSeconds={remainingSeconds}
-          urgencyPulse={urgencyPulse}
-        />
-      </View>
+      {isCompactLandscape ? (
+        <View className="w-full items-center gap-4">
+          <TimerTime
+            remainingSeconds={remainingSeconds}
+            urgencyPulse={urgencyPulse}
+          />
+          <TimerProgressRing
+            isLinear
+            progress={progress}
+            urgencyPulse={urgencyPulse}
+          />
+        </View>
+      ) : (
+        <View className="aspect-square w-full items-center justify-center md:max-w-3xl">
+          <TimerProgressRing progress={progress} urgencyPulse={urgencyPulse} />
+          <TimerTime
+            remainingSeconds={remainingSeconds}
+            urgencyPulse={urgencyPulse}
+          />
+        </View>
+      )}
     </View>
   );
 }

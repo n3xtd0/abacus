@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 
 import { TimerControls } from '@/components/timer-controls';
 import { TimerDisplay } from '@/components/timer-display';
@@ -8,10 +8,12 @@ import { TimerSettings } from '@/components/timer-settings';
 import { useTimer } from '@/hooks/use-timer';
 
 export default function HomeScreen() {
+  const { height, width } = useWindowDimensions();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [standardMinutes, setStandardMinutes] = useState('25');
   const [quickAddSeconds, setQuickAddSeconds] = useState('15');
   const timer = useTimer();
+  const isCompactLandscape = width > height && height < 600;
 
   const addQuickTime = () => {
     const seconds = Number.parseInt(quickAddSeconds, 10);
@@ -42,12 +44,20 @@ export default function HomeScreen() {
           onStandardMinutesChange={setStandardMinutes}
         />
       ) : (
-        <View className="flex-1 px-5 py-6 md:flex-row md:items-center md:justify-center md:gap-16 md:px-8">
+        <View
+          className={
+            isCompactLandscape
+              ? 'flex-1 flex-row items-center gap-4 px-5 py-3'
+              : 'flex-1 px-5 py-6 md:flex-row md:items-center md:justify-center md:gap-16 md:px-8'
+          }
+        >
           <TimerDisplay
+            isCompactLandscape={isCompactLandscape}
             isRunning={timer.isRunning}
             remainingSeconds={timer.remainingSeconds}
           />
           <TimerControls
+            isCompactLandscape={isCompactLandscape}
             isRunning={timer.isRunning}
             quickAddSeconds={quickAddSeconds}
             onAddQuickTime={addQuickTime}
