@@ -10,20 +10,19 @@ import { useTimer } from '@/hooks/use-timer';
 export default function HomeScreen() {
   const { height, width } = useWindowDimensions();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [standardMinutes, setStandardMinutes] = useState('25');
-  const [quickAddSeconds, setQuickAddSeconds] = useState('15');
+  const [timerSeconds, setTimerSeconds] = useState('15');
   const timer = useTimer();
   const isCompactLandscape = width > height && height < 600;
 
   const addQuickTime = () => {
-    const seconds = Number.parseInt(quickAddSeconds, 10);
+    const seconds = Number.parseInt(timerSeconds, 10);
     timer.addSeconds(Number.isFinite(seconds) ? seconds : 15);
   };
 
   const saveSettings = () => {
-    const minutes = Number.parseInt(standardMinutes, 10);
-    if (Number.isFinite(minutes) && minutes > 0) {
-      timer.setMinutes(minutes);
+    const seconds = Number.parseInt(timerSeconds, 10);
+    if (Number.isFinite(seconds) && seconds > 0) {
+      timer.setDurationSeconds(seconds);
     }
     setIsSettingsOpen(false);
   };
@@ -37,11 +36,9 @@ export default function HomeScreen() {
 
       {isSettingsOpen ? (
         <TimerSettings
-          quickAddSeconds={quickAddSeconds}
-          standardMinutes={standardMinutes}
-          onQuickAddSecondsChange={setQuickAddSeconds}
           onSave={saveSettings}
-          onStandardMinutesChange={setStandardMinutes}
+          onTimerSecondsChange={setTimerSeconds}
+          timerSeconds={timerSeconds}
         />
       ) : (
         <View
@@ -59,7 +56,7 @@ export default function HomeScreen() {
           <TimerControls
             isCompactLandscape={isCompactLandscape}
             isRunning={timer.isRunning}
-            quickAddSeconds={quickAddSeconds}
+            quickAddSeconds={timerSeconds}
             onAddQuickTime={addQuickTime}
             onReset={timer.reset}
             onStop={timer.stop}

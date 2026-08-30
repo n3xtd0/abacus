@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 const DEFAULT_SECONDS = 15;
 
 export function useTimer() {
-  const [remainingSeconds, setRemainingSeconds] = useState(DEFAULT_SECONDS);
+  const [durationSeconds, setConfiguredDurationSeconds] = useState(DEFAULT_SECONDS);
+  const [remainingSeconds, setRemainingSeconds] = useState(durationSeconds);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export function useTimer() {
   }, [remainingSeconds]);
 
   const reset = () => {
-    setRemainingSeconds(DEFAULT_SECONDS);
+    setRemainingSeconds(durationSeconds);
   };
 
   const stop = () => setIsRunning(false);
@@ -32,8 +33,9 @@ export function useTimer() {
     setRemainingSeconds((current) => current + seconds);
   };
 
-  const setMinutes = (minutes: number) => {
-    setRemainingSeconds(minutes * 60);
+  const setDurationSeconds = (seconds: number) => {
+    setConfiguredDurationSeconds(seconds);
+    setRemainingSeconds(seconds);
     setIsRunning(false);
   };
 
@@ -42,7 +44,7 @@ export function useTimer() {
     isRunning,
     remainingSeconds,
     reset,
-    setMinutes,
+    setDurationSeconds,
     stop,
     toggle,
   };
