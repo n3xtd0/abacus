@@ -23,6 +23,7 @@ export function useTimer() {
 
   const reset = () => {
     setRemainingSeconds(durationSeconds);
+    setIsRunning(true);
   };
 
   const stop = () => setIsRunning(false);
