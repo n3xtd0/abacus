@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const DEFAULT_SECONDS = 15;
+export const DEFAULT_SECONDS = 30;
 
 export function useTimer() {
   const [durationSeconds, setConfiguredDurationSeconds] = useState(DEFAULT_SECONDS);

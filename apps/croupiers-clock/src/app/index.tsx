@@ -5,18 +5,18 @@ import { TimerControls } from '@/components/timer-controls';
 import { TimerDisplay } from '@/components/timer-display';
 import { TimerHeader } from '@/components/timer-header';
 import { TimerSettings } from '@/components/timer-settings';
-import { useTimer } from '@/hooks/use-timer';
+import { DEFAULT_SECONDS, useTimer } from '@/hooks/use-timer';
 
 export default function HomeScreen() {
   const { height, width } = useWindowDimensions();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [timerSeconds, setTimerSeconds] = useState('15');
+  const [timerSeconds, setTimerSeconds] = useState(String(DEFAULT_SECONDS));
   const timer = useTimer();
   const isCompactLandscape = width > height && height < 600;
 
   const addQuickTime = () => {
     const seconds = Number.parseInt(timerSeconds, 10);
-    timer.addSeconds(Number.isFinite(seconds) ? seconds : 15);
+    timer.addSeconds(Number.isFinite(seconds) ? seconds : DEFAULT_SECONDS);
   };
 
   const saveSettings = () => {
