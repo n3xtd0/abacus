@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 
-import { useTimerAlerts } from '@/hooks/use-timer-alerts';
+import { URGENT_SECONDS, useTimerAlerts } from '@/hooks/use-timer-alerts';
 import { useTimerProgress } from '@/hooks/use-timer-progress';
 import { useUrgencyPulse } from '@/hooks/use-urgency-pulse';
 import { TimerProgressRing } from './timer-progress-ring';
@@ -19,7 +19,7 @@ export function TimerDisplay({
 }: TimerDisplayProps) {
   useTimerAlerts({ isRunning, remainingSeconds });
   const progress = useTimerProgress({ isRunning, remainingSeconds });
-  const urgencyPulse = useUrgencyPulse({ isRunning, remainingSeconds });
+  const urgencyPulse = useUrgencyPulse({ isUrgent: remainingSeconds <= URGENT_SECONDS && isRunning });
 
   return (
     <View className="flex-1 items-center justify-center">

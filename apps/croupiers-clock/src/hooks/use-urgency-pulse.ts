@@ -8,17 +8,14 @@ import {
 } from 'react-native-reanimated';
 
 type UseUrgencyPulseOptions = {
-  isRunning: boolean;
-  remainingSeconds: number;
+  isUrgent: boolean;
 };
 
 export function useUrgencyPulse({
-  isRunning,
-  remainingSeconds,
+  isUrgent,
 }: UseUrgencyPulseOptions) {
   const urgencyPulse = useSharedValue(0);
   const previousIsUrgent = useRef(false);
-  const isUrgent = isRunning && remainingSeconds > 0 && remainingSeconds <= 3;
 
   useEffect(() => {
     if (isUrgent && !previousIsUrgent.current) {
