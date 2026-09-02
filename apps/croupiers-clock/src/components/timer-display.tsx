@@ -1,13 +1,8 @@
-import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
-import Animated, {
-  cancelAnimation,
-  Easing,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from 'react-native-reanimated';
 
+import { useTimerAlerts } from '@/hooks/use-timer-alerts';
+import { useTimerProgress } from '@/hooks/use-timer-progress';
+import { useUrgencyPulse } from '@/hooks/use-urgency-pulse';
 import { TimerProgressRing } from './timer-progress-ring';
 import { TimerTime } from './timer-time';
 
@@ -22,57 +17,9 @@ export function TimerDisplay({
   isRunning,
   remainingSeconds,
 }: TimerDisplayProps) {
-  const progress = useSharedValue(0);
-  const urgencyPulse = useSharedValue(0);
-  const previousIsUrgent = useRef(false);
-  const previousIsRunning = useRef(isRunning);
-  const previousRemainingSeconds = useRef(remainingSeconds);
-  const isUrgent = isRunning && remainingSeconds > 0 && remainingSeconds <= 3;
-
-  useEffect(() => {
-    const wasReset = remainingSeconds > previousRemainingSeconds.current;
-    previousRemainingSeconds.current = remainingSeconds;
-    const didStart = isRunning && !previousIsRunning.current;
-    previousIsRunning.current = isRunning;
-
-    if (remainingSeconds === 0) {
-      cancelAnimation(progress);
-      progress.value = 1;
-      return;
-    }
-
-    if (wasReset) {
-      cancelAnimation(progress);
-      progress.value = 0;
-    }
-
-    if (!isRunning) {
-      cancelAnimation(progress);
-      return;
-    }
-
-    if (didStart || wasReset) {
-      progress.value = withTiming(1, {
-        duration: remainingSeconds * 1000,
-        easing: Easing.linear,
-      });
-    }
-  }, [isRunning, progress, remainingSeconds]);
-
-  useEffect(() => {
-    if (isUrgent && !previousIsUrgent.current) {
-      urgencyPulse.value = withRepeat(
-        withTiming(1, { duration: 400, easing: Easing.inOut(Easing.ease) }),
-        -1,
-        true,
-      );
-    } else if (!isUrgent) {
-      cancelAnimation(urgencyPulse);
-      urgencyPulse.value = 0;
-    }
-
-    previousIsUrgent.current = isUrgent;
-  }, [isUrgent, urgencyPulse]);
+  useTimerAlerts({ isRunning, remainingSeconds });
+  const progress = useTimerProgress({ isRunning, remainingSeconds });
+  const urgencyPulse = useUrgencyPulse({ isRunning, remainingSeconds });
 
   return (
     <View className="flex-1 items-center justify-center">
