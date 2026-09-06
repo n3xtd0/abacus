@@ -77,6 +77,7 @@ export interface Config {
     league: League;
     level: Level;
     structure: Structure;
+    'cash-session': CashSession;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -93,6 +94,7 @@ export interface Config {
     league: LeagueSelect<false> | LeagueSelect<true>;
     level: LevelSelect<false> | LevelSelect<true>;
     structure: StructureSelect<false> | StructureSelect<true>;
+    'cash-session': CashSessionSelect<false> | CashSessionSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -342,6 +344,20 @@ export interface Entry {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cash-session".
+ */
+export interface CashSession {
+  id: number;
+  player: number | Player;
+  cash_in: number;
+  cash_out: number;
+  startDate: string;
+  endDate: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -386,6 +402,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'structure';
         value: number | Structure;
+      } | null)
+    | ({
+        relationTo: 'cash-session';
+        value: number | CashSession;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -614,6 +634,19 @@ export interface StructureSelect<T extends boolean = true> {
         time?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cash-session_select".
+ */
+export interface CashSessionSelect<T extends boolean = true> {
+  player?: T;
+  cash_in?: T;
+  cash_out?: T;
+  startDate?: T;
+  endDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }

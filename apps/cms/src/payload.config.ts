@@ -17,6 +17,7 @@ import { Entry } from './collections/Entry'
 import { League } from './collections/League'
 import { Level } from './collections/Level'
 import { Structure } from './collections/Structure'
+import { CashSession } from './collections/CashSession'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -34,7 +35,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Media, Player, Event, LiveEvent, Tourney, Entry, League, Level, Structure],
+  collections: [Users, Media, Player, Event, LiveEvent, Tourney, Entry, League, Level, Structure, CashSession],
   routes: {
 
   },
