@@ -349,10 +349,9 @@ export interface Entry {
 export interface CashSession {
   id: number;
   player: number | Player;
-  cash_in: number;
+  buy_in: number;
   cash_out: number;
   startDate: string;
-  endDate: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -643,10 +642,9 @@ export interface StructureSelect<T extends boolean = true> {
  */
 export interface CashSessionSelect<T extends boolean = true> {
   player?: T;
-  cash_in?: T;
+  buy_in?: T;
   cash_out?: T;
   startDate?: T;
-  endDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }
